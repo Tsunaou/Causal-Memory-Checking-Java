@@ -75,4 +75,12 @@ public class ReadFrom extends PoSetMatrix {
 
     }
 
+
+    public boolean isRF(int i, int j){
+        return isRelation(i, j);
+    }
+
+    public boolean isRF(HistoryItem it1, HistoryItem it2){
+        return isRF(it1.getIndex(),it2.getIndex());
+    }
 }

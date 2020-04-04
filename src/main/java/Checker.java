@@ -1,3 +1,4 @@
+import CausalChecker.CCChecker;
 import History.HistoryItem;
 import History.HistoryReader;
 import Relation.CausalOrder;
@@ -5,6 +6,7 @@ import Relation.ProgramOrder;
 import Relation.ReadFrom;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -34,15 +36,19 @@ public class Checker {
             // get program order
             ProgramOrder PO = new ProgramOrder(lastIndex);
             PO.calculateProgramOrder(histories, concurrency);
-            PO.printRelations();
+//            PO.printRelations();
             // get read-from
             ReadFrom RF = new ReadFrom(lastIndex);
             RF.calculateReadFrom(histories, concurrency);
-            RF.printRelations();
+//            RF.printRelations();
             // get causal order
             CausalOrder CO = new CausalOrder(lastIndex);
             CO.calculateCausalOrder(PO, RF);
-            CO.printRelations();
+//            CO.printRelations();
+            // Causal consistency checker
+            CCChecker ccChecker = new CCChecker(PO,RF,CO,histories,operations);
+            ccChecker.checkCausalConsistency();
+
 
         } catch (IOException e) {
             e.printStackTrace();

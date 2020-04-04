@@ -8,6 +8,7 @@ public class HistoryItem {
 
     String type;
     String f;
+    OP_TYPE optype;
     String value;
     int k;
     int v;
@@ -37,6 +38,14 @@ public class HistoryItem {
             this.v = Integer.parseInt(kv[1]);
         }
 
+        if(f.equals(":write")){
+            this.optype = OP_TYPE.WRITE;
+        }else if(f.equals(":read")){
+            this.optype = OP_TYPE.READ;
+        }else{
+            this.optype = OP_TYPE.UNDEFINED;
+        }
+
     }
 
     public String getType() {
@@ -45,6 +54,10 @@ public class HistoryItem {
 
     public String getF() {
         return f;
+    }
+
+    public OP_TYPE getOptype() {
+        return optype;
     }
 
     @Deprecated
@@ -100,7 +113,13 @@ public class HistoryItem {
                 ", :index " + index;
     }
 
+    public boolean isWrite(){
+        return this.optype == OP_TYPE.WRITE;
+    }
 
+    public boolean isRead(){
+        return this.optype == OP_TYPE.READ;
+    }
 
     public static void main(String[] args) {
 

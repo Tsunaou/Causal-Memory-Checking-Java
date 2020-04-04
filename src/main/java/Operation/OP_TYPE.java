@@ -2,7 +2,7 @@ package Operation;
 
 public enum OP_TYPE {
 
-    WRITE(":write"), READ(":read");
+    WRITE(":write"), READ(":read"), UNDEFINED("undefined");
     private String opType;
     private final int types = 2;
 

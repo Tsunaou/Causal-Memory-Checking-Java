@@ -13,4 +13,12 @@ public class CausalOrder extends PoSetMatrix{
         union(PO, RF);
         calculateTransitiveClosure();
     }
+
+    public boolean isCO(int i, int j){
+        return isRelation(i, j);
+    }
+
+    public boolean isCO(HistoryItem it1, HistoryItem it2){
+        return isCO(it1.getIndex(),it2.getIndex());
+    }
 }

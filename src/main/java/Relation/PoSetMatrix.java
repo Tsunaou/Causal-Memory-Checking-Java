@@ -78,4 +78,8 @@ public class PoSetMatrix implements PoSet {
     public int getSize() {
         return size;
     }
+
+    public boolean isRelation(int i, int j){
+        return relations[i][j];
+    }
 }

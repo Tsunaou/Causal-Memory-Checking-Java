@@ -38,4 +38,13 @@ public class ProgramOrder extends PoSetMatrix {
 
     }
 
+
+    public boolean isPO(int i, int j){
+        return isRelation(i, j);
+    }
+
+    public boolean isPO(HistoryItem it1, HistoryItem it2){
+        return isPO(it1.getIndex(),it2.getIndex());
+    }
+
 }
