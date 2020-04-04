@@ -1,4 +1,5 @@
 package Relation;
+
 import Exception.ClosureException;
 
 public class PoSetMatrix implements PoSet {
@@ -46,12 +47,28 @@ public class PoSetMatrix implements PoSet {
     }
 
     public boolean[][] getRelations() {
-        if(isClose){
+        if (isClose) {
             return relations;
-        }else{
+        } else {
             System.out.println("Transitive closure is not calculated");
             return null;
         }
+    }
+
+    public void union(PoSetMatrix s1, PoSetMatrix s2) {
+        assert (s1.size == s2.size);
+        assert (size == s1.size);
+
+        boolean[][] r1 = s1.getRelations();
+        boolean[][] r2 = s2.getRelations();
+
+        int n = size;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                relations[i][j] = r1[i][j] || r2[i][j];
+            }
+        }
+
     }
 
     public boolean isClose() {

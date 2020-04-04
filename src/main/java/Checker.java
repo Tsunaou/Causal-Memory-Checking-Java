@@ -1,5 +1,6 @@
 import History.HistoryItem;
 import History.HistoryReader;
+import Relation.CausalOrder;
 import Relation.ProgramOrder;
 import Relation.ReadFrom;
 
@@ -38,6 +39,10 @@ public class Checker {
             ReadFrom RF = new ReadFrom(lastIndex);
             RF.calculateReadFrom(histories, concurrency);
             RF.printRelations();
+            // get causal order
+            CausalOrder CO = new CausalOrder(lastIndex);
+            CO.calculateCausalOrder(PO, RF);
+            CO.printRelations();
 
         } catch (IOException e) {
             e.printStackTrace();
