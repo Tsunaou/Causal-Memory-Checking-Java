@@ -1,5 +1,6 @@
 package History;
 
+import Operation.OP_TYPE;
 import org.apache.commons.lang3.StringUtils;
 
 
@@ -46,6 +47,7 @@ public class HistoryItem {
         return f;
     }
 
+    @Deprecated
     public String getValue() {
         return value;
     }

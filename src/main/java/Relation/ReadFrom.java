@@ -1,10 +1,13 @@
 package Relation;
 
 import History.HistoryItem;
-
+import Operation.OP_TYPE;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+
+
 
 public class ReadFrom extends PoSetMatrix {
     public ReadFrom(int size) {
@@ -12,6 +15,63 @@ public class ReadFrom extends PoSetMatrix {
     }
 
     public void calculateReadFrom(ArrayList<HistoryItem> histories, int concurrency) {
+        // TODO: String -> Enum Function Type
+        HashMap<Integer, HashMap<OP_TYPE, ArrayList<HistoryItem>>> groups = new HashMap<Integer, HashMap<OP_TYPE, ArrayList<HistoryItem>>>();// group by key and func
+        // group histories by key and type
+        for (HistoryItem item : histories) {
+            int key = item.getK();
+            // TODO: improve here
+            String func = item.getF();
+            OP_TYPE type;
+            if(func.equals(":write")){
+                type = OP_TYPE.WRITE;
+            }else if(func.equals(":read")){
+                type = OP_TYPE.READ;
+            }else{
+                // TODO: throw exception
+                System.out.println("Invalid Type");
+                return;
+            }
+
+            if (groups.containsKey(key)) {
+                if (groups.get(key).containsKey(type)) {
+                    // key: exist, type: exist
+                    groups.get(key).get(type).add(item);
+                } else {
+                    // key: exist, type: null
+                    ArrayList<HistoryItem> list = new ArrayList<HistoryItem>();
+                    list.add(item);
+                    groups.get(key).put(type, list);
+                }
+            } else {
+                // key: null, type: null
+                HashMap<OP_TYPE, ArrayList<HistoryItem>> funcMap = new HashMap<OP_TYPE, ArrayList<HistoryItem>>();
+                ArrayList<HistoryItem> list = new ArrayList<HistoryItem>();
+                list.add(item);
+                funcMap.put(type, list);
+                groups.put(key, funcMap);
+            }
+        }
+        // add sample read-from order
+        for (Map.Entry<Integer, HashMap<OP_TYPE, ArrayList<HistoryItem>>> entry : groups.entrySet()) {
+            int key = entry.getKey();
+            ArrayList<HistoryItem> wlist = entry.getValue().get(OP_TYPE.WRITE);
+            ArrayList<HistoryItem> rlist = entry.getValue().get(OP_TYPE.READ);
+            if (wlist == null || rlist == null){
+                continue;
+            }
+            for(HistoryItem write: wlist){
+                for(HistoryItem read: rlist){
+                    if(write.getV() == read.getV()){
+                        int op1 = write.getIndex();
+                        int op2 = read.getIndex();
+                        this.addRelation(op1, op2);
+                    }
+                }
+            }
+        }
+        // calculate transitive closure
+        this.calculateTransitiveClosure();
 
     }
 

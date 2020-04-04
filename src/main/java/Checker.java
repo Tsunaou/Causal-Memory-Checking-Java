@@ -1,6 +1,7 @@
 import History.HistoryItem;
 import History.HistoryReader;
 import Relation.ProgramOrder;
+import Relation.ReadFrom;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.HashMap;
 
 public class Checker {
 
-    void timeTemplate(){
+    void timeTemplate() {
         long startTime = System.currentTimeMillis();
         // do something
         long endTime = System.currentTimeMillis();
@@ -26,12 +27,17 @@ public class Checker {
             ArrayList<HistoryItem> histories = reader.readHistories();
             int lastIndex = histories.get(histories.size() - 1).getIndex(); // the max index in the  histories
             HashMap<Integer, HistoryItem> operations = new HashMap<Integer, HistoryItem>(); // index -> operation(or say history)
-            for(HistoryItem item: histories){
+            for (HistoryItem item : histories) {
                 operations.put(item.getIndex(), item);
             }
             // get program order
             ProgramOrder PO = new ProgramOrder(lastIndex);
             PO.calculateProgramOrder(histories, concurrency);
+            PO.printRelations();
+            // get read-from
+            ReadFrom RF = new ReadFrom(lastIndex);
+            RF.calculateReadFrom(histories, concurrency);
+            RF.printRelations();
 
         } catch (IOException e) {
             e.printStackTrace();
