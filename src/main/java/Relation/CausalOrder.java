@@ -10,6 +10,7 @@ public class CausalOrder extends PoSetMatrix{
     }
 
     public void calculateCausalOrder(PoSetMatrix PO, PoSetMatrix RF) {
+        System.out.println("Calculating CO");
         union(PO, RF);
         calculateTransitiveClosure();
     }

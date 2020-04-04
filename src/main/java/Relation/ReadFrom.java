@@ -15,7 +15,7 @@ public class ReadFrom extends PoSetMatrix {
     }
 
     public void calculateReadFrom(ArrayList<HistoryItem> histories, int concurrency) {
-        // TODO: String -> Enum Function Type
+        System.out.println("Calculating RF");
         HashMap<Integer, HashMap<OP_TYPE, ArrayList<HistoryItem>>> groups = new HashMap<Integer, HashMap<OP_TYPE, ArrayList<HistoryItem>>>();// group by key and func
         // group histories by key and type
         for (HistoryItem item : histories) {

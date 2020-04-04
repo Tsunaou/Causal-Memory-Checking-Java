@@ -13,6 +13,7 @@ public class ProgramOrder extends PoSetMatrix {
     }
 
     public void calculateProgramOrder(ArrayList<HistoryItem> histories, int concurrency) {
+        System.out.println("Calculating PO");
         HashMap<Integer, ArrayList<HistoryItem>> groups = new HashMap<Integer, ArrayList<HistoryItem>>();  // group by process
         // initial list for each process
         for (int i = 0; i < concurrency; i++) {
