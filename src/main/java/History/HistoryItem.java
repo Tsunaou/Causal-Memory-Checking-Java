@@ -13,7 +13,7 @@ public class HistoryItem {
     int process;
     long time;
     long position;
-    String link; // TODO: link应该不会被用到
+    String link; // TODO: link should not used
     int index;
     int concurrency;
 
@@ -38,6 +38,49 @@ public class HistoryItem {
 
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public String getF() {
+        return f;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public int getK() {
+        return k;
+    }
+
+    public int getV() {
+        return v;
+    }
+
+    public int getProcess() {
+        return process;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public long getPosition() {
+        return position;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public int getConcurrency() {
+        return concurrency;
+    }
 
     @Override
     public String toString() {

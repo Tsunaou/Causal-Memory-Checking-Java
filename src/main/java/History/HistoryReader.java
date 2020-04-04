@@ -20,10 +20,12 @@ public class HistoryReader {
 
     String url;
     int concurrency;
+    int idx;
 
     public HistoryReader(String url, int concurrency) {
         this.url = url;
         this.concurrency = concurrency;
+        this.idx = 0; // remove the index of :invoke and :failed
     }
 
     HistoryItem getHistoryItem(String line) {
@@ -38,7 +40,7 @@ public class HistoryReader {
         long time = Long.parseLong(StringUtils.remove(subs[4], KEY_TIME));
         long position = Long.parseLong(StringUtils.remove(subs[5], KEY_POSITION));
         String link = StringUtils.remove(subs[6], KEY_LINK);
-        int index = Integer.parseInt(StringUtils.remove(subs[7], KEY_INDEX));
+        int index = idx++;
         return new HistoryItem(type, f, value, process, time, position, link, index, concurrency);
     }
 
@@ -48,12 +50,12 @@ public class HistoryReader {
         String line;
         while ((line = in.readLine()) != null) {
             line = StringUtils.strip(line, "{}");
-//            System.out.println(line);
             HistoryItem history = this.getHistoryItem(line);
             if (history != null) {
-                histories.add(history);
+//                System.out.println(line);
 //                System.out.println(history);
 //                System.out.println();
+                histories.add(history);
             }
         }
         return histories;
