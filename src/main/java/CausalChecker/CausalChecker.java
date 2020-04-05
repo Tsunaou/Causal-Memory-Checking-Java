@@ -1,47 +1,58 @@
 package CausalChecker;
 
 import BadPattern.BAD_PATTERN;
-import History.HistoryItem;
+import CausalLogger.CausalLogHandler;
+import DifferentiatedHistory.History;
+import DifferentiatedHistory.HistoryItem;
 import Relation.CausalOrder;
 import Relation.ProgramOrder;
 import Relation.ReadFrom;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CausalChecker {
 
     ProgramOrder PO;
     ReadFrom RF;
     CausalOrder CO;
-    ArrayList<HistoryItem> histories;
+    LinkedList<HistoryItem> histories;
     HashMap<Integer, HistoryItem> operations;
     HashMap<BAD_PATTERN, Boolean> badMap;
 
-    ArrayList<HistoryItem> writeHistories;
-    ArrayList<HistoryItem> readHistories;
+    LinkedList<HistoryItem> writeHistories;
+    LinkedList<HistoryItem> readHistories;
+    Logger logger;
 
-
-    public CausalChecker(ProgramOrder PO, ReadFrom RF, CausalOrder CO, ArrayList<HistoryItem> histories, HashMap<Integer, HistoryItem> operations) {
+    public CausalChecker(ProgramOrder PO, ReadFrom RF, CausalOrder CO, History history) {
         this.PO = PO;
         this.RF = RF;
         this.CO = CO;
-        this.histories = histories;
-        this.operations = operations;
+        this.histories = history.getHistories();
+        this.operations = history.getOperations();
         this.badMap = new HashMap<BAD_PATTERN, Boolean>();
-        this.writeHistories = new ArrayList<HistoryItem>();
-        this.readHistories = new ArrayList<HistoryItem>();
-        this.initWriteReadHistories();
+        this.writeHistories = history.getWriteHistories();
+        this.readHistories = history.getReadHistories();
+        this.logger = Logger.getLogger(this.getClass().getName());
+        this.logger.setLevel(Level.ALL);
     }
 
-    private void initWriteReadHistories(){
-        for(HistoryItem item : histories){
-            if(item.isWrite()){
-                writeHistories.add(item);
-            }
-            if(item.isRead()){
-                readHistories.add(item);
+    public void printCheckStatus(){
+        String checker = this.getClass().getName();
+        logger.info(checker + " outcome list");
+        for (Map.Entry<BAD_PATTERN, Boolean> entry : badMap.entrySet()) {
+            BAD_PATTERN bad = entry.getKey();
+            boolean has_bad = entry.getValue();
+            logger.info("Collecting " + entry);
+            if (has_bad) {
+                logger.warning("Inconsistency of " + bad);
             }
         }
     }
+
+
 }

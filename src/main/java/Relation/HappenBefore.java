@@ -1,0 +1,22 @@
+package Relation;
+
+import DifferentiatedHistory.History;
+
+import java.util.HashMap;
+
+public class HappenBefore {
+    HashMap<Integer, HappenBeforeO> HB;
+
+    public HappenBefore(int size, ProgramOrder PO, CausalOrder CO, History history) {
+        this.HB = new HashMap<Integer, HappenBeforeO>();
+        for (Integer o : history.getOperations().keySet()) {
+            HappenBeforeO HBo = new HappenBeforeO(size, o);
+            HBo.calculateHappenBefore(PO, CO, history);
+            HB.put(o, HBo);
+        }
+    }
+
+    public HappenBeforeO getHBo(int oIndex) {
+        return HB.get(oIndex);
+    }
+}

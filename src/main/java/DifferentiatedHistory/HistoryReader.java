@@ -1,12 +1,11 @@
-package History;
+package DifferentiatedHistory;
 
-import Operation.OP_TYPE;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class HistoryReader {
 
@@ -45,8 +44,8 @@ public class HistoryReader {
         return new HistoryItem(type, f, value, process, time, position, link, index, concurrency);
     }
 
-    public ArrayList<HistoryItem> readHistories() throws IOException {
-        ArrayList<HistoryItem> histories = new ArrayList<HistoryItem>();
+    public LinkedList<HistoryItem> readHistories() throws IOException {
+        LinkedList<HistoryItem> histories = new LinkedList<HistoryItem>();
         BufferedReader in = new BufferedReader(new FileReader(this.url));
         String line;
         while ((line = in.readLine()) != null) {
@@ -61,6 +60,12 @@ public class HistoryReader {
         }
         return histories;
     }
+
+    public History readHistory() throws IOException {
+        LinkedList<HistoryItem> histories = readHistories();
+        return new History(histories);
+    }
+
 
     public static void main(String[] args) {
         String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\history.edn";

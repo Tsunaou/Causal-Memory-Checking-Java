@@ -1,25 +1,37 @@
 package Relation;
 
-import History.HistoryItem;
+import DifferentiatedHistory.HistoryItem;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
-public class CausalOrder extends PoSetMatrix{
+public class CausalOrder extends PoSetMatrix {
     public CausalOrder(int size) {
         super(size);
     }
 
     public void calculateCausalOrder(PoSetMatrix PO, PoSetMatrix RF) {
-        System.out.println("Calculating CO");
+        logger.info("Calculating CO");
         union(PO, RF);
         calculateTransitiveClosure();
     }
 
-    public boolean isCO(int i, int j){
+    public boolean isCO(int i, int j) {
         return isRelation(i, j);
     }
 
-    public boolean isCO(HistoryItem it1, HistoryItem it2){
-        return isCO(it1.getIndex(),it2.getIndex());
+    public boolean isCO(HistoryItem it1, HistoryItem it2) {
+        return isCO(it1.getIndex(), it2.getIndex());
+    }
+
+    public LinkedList<Integer> CausalPast(int o) {
+        LinkedList<Integer> causalPast = new LinkedList<Integer>();
+        int n = getSize();
+        boolean[][] co = getRelations();
+        for (int i = 0; i < n; i++) {
+            if(co[i][o]){
+                causalPast.add(i);
+            }
+        }
+        return causalPast;
     }
 }

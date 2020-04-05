@@ -1,9 +1,11 @@
 package Relation;
 
-import History.HistoryItem;
+import DifferentiatedHistory.History;
+import DifferentiatedHistory.HistoryItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class ProgramOrder extends PoSetMatrix {
@@ -12,8 +14,9 @@ public class ProgramOrder extends PoSetMatrix {
         super(size);
     }
 
-    public void calculateProgramOrder(ArrayList<HistoryItem> histories, int concurrency) {
-        System.out.println("Calculating PO");
+    public void calculateProgramOrder(History history, int concurrency) {
+        logger.info("Calculating PO");
+        LinkedList<HistoryItem> histories = history.getHistories();
         HashMap<Integer, ArrayList<HistoryItem>> groups = new HashMap<Integer, ArrayList<HistoryItem>>();  // group by process
         // initial list for each process
         for (int i = 0; i < concurrency; i++) {

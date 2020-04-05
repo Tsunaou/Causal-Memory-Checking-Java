@@ -1,4 +1,4 @@
-package History;
+package DifferentiatedHistory;
 
 import Operation.OP_TYPE;
 import org.apache.commons.lang3.StringUtils;
@@ -30,19 +30,19 @@ public class HistoryItem {
         this.index = index;
         this.concurrency = concurrency;
 
-        String[]kv = StringUtils.strip(value,"[]").split(" ");
+        String[] kv = StringUtils.strip(value, "[]").split(" ");
         this.k = Integer.parseInt(kv[0]);
-        if(kv[1].equals("nil")){
+        if (kv[1].equals("nil")) {
             this.v = -1;
-        }else{
+        } else {
             this.v = Integer.parseInt(kv[1]);
         }
 
-        if(f.equals(":write")){
+        if (f.equals(":write")) {
             this.optype = OP_TYPE.WRITE;
-        }else if(f.equals(":read")){
+        } else if (f.equals(":read")) {
             this.optype = OP_TYPE.READ;
-        }else{
+        } else {
             this.optype = OP_TYPE.UNDEFINED;
         }
 
@@ -100,12 +100,12 @@ public class HistoryItem {
     @Override
     public String toString() {
         String vi = "nil";
-        if(v != -1){
+        if (v != -1) {
             vi = String.valueOf(v);
         }
         return ":type " + type +
                 ", :f " + f +
-                ", :value [" + k + " " + vi + "]"+
+                ", :value [" + k + " " + vi + "]" +
                 ", :process " + process +
                 ", :time " + time +
                 ", :position " + position +
@@ -113,12 +113,17 @@ public class HistoryItem {
                 ", :index " + index;
     }
 
-    public boolean isWrite(){
+    public boolean isWrite() {
         return this.optype == OP_TYPE.WRITE;
     }
 
-    public boolean isRead(){
+    public boolean isRead() {
         return this.optype == OP_TYPE.READ;
+    }
+
+    public boolean readInit() {
+        assert (this.optype == OP_TYPE.READ);
+        return ((v == 0) || (v == -1));
     }
 
     public static void main(String[] args) {

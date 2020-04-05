@@ -1,9 +1,11 @@
 package Relation;
 
-import History.HistoryItem;
+import DifferentiatedHistory.History;
+import DifferentiatedHistory.HistoryItem;
 import Operation.OP_TYPE;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 
@@ -14,8 +16,9 @@ public class ReadFrom extends PoSetMatrix {
         super(size);
     }
 
-    public void calculateReadFrom(ArrayList<HistoryItem> histories, int concurrency) {
-        System.out.println("Calculating RF");
+    public void calculateReadFrom(History history, int concurrency) {
+        logger.info("Calculating RF");
+        LinkedList<HistoryItem> histories = history.getHistories();
         HashMap<Integer, HashMap<OP_TYPE, ArrayList<HistoryItem>>> groups = new HashMap<Integer, HashMap<OP_TYPE, ArrayList<HistoryItem>>>();// group by key and func
         // group histories by key and type
         for (HistoryItem item : histories) {
