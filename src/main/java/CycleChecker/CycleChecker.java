@@ -1,10 +1,37 @@
 package CycleChecker;
 
+import CycleChecker.Johnson.ElementaryCyclesSearch;
+import org.jgrapht.Graph;
+import org.jgrapht.alg.cycle.CycleDetector;
+import org.jgrapht.graph.DefaultDirectedGraph;
+import org.jgrapht.graph.DefaultEdge;
+
 import java.util.List;
 
 public class CycleChecker {
 
-    public static boolean Cyclic(boolean [][] relations){
+    public static boolean Cyclic(boolean[][] relations) {
+        int n = relations.length;
+        String[] nodes = new String[n];
+        Graph<Integer, DefaultEdge> directedGraph = new DefaultDirectedGraph<Integer, DefaultEdge>(DefaultEdge.class);
+        for (int i = 0; i < n; i++) {
+            directedGraph.addVertex(i);
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (relations[i][j]) {
+                    directedGraph.addEdge(i, j);
+
+                }
+            }
+        }
+
+        CycleDetector<Integer, DefaultEdge> detector = new CycleDetector<Integer, DefaultEdge>(directedGraph);
+        return detector.detectCycles();
+    }
+
+    @Deprecated
+    public static boolean CyclicOld(boolean[][] relations) {
         int n = relations.length;
         String[] nodes = new String[n];
 

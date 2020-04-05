@@ -1,4 +1,4 @@
-package CycleChecker;
+package CycleChecker.Johnson;
 
 import java.util.List;
 

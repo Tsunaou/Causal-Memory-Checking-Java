@@ -61,11 +61,13 @@ public class Checker {
     }
 
     public static void main(String[] args) {
-//        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\history.edn";
+        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\history.edn";
 //        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\tiny_history.edn";
-        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\small_history.edn";
+//        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\small_history.edn";
+
         int concurrency = 10;
         Checker cheker = new Checker(url, concurrency);
+//        cheker.checkCausalConsistency();
         cheker.checkCausalMemory();
     }
 }

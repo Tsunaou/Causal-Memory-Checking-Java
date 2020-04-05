@@ -1,4 +1,6 @@
-package CycleChecker;
+package CycleChecker.Johnson;
+
+import CycleChecker.CycleChecker;
 
 import java.util.Vector;
 
