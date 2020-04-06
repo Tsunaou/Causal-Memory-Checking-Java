@@ -15,6 +15,7 @@ public class Checker {
     String url;
     int concurrency;
     HistoryReader reader;
+    boolean file;
 
     public Checker(String url, int concurrency) {
         this.url = url;
@@ -22,10 +23,17 @@ public class Checker {
         this.reader = new HistoryReader(url, concurrency);
     }
 
-    public void checkCausal(boolean CC, boolean CM){
+    public Checker(String url, int concurrency, boolean file) {
+        this.url = url;
+        this.concurrency = concurrency;
+        this.reader = new HistoryReader(url, concurrency, file);
+    }
+
+    public void checkCausal(boolean CC, boolean CM) {
         try {
             History history = reader.readHistory();
             int lastIndex = history.getLastIndex();
+            System.err.println("LastIndex is " + lastIndex);
             // get program order
             ProgramOrder PO = new ProgramOrder(lastIndex);
             PO.calculateProgramOrder(history, concurrency);
@@ -35,12 +43,12 @@ public class Checker {
             // get causal order
             CausalOrder CO = new CausalOrder(lastIndex);
             CO.calculateCausalOrder(PO, RF);
-            if(CC){
+            if (CC) {
                 // Causal consistency checker
                 CCChecker ccChecker = new CCChecker(PO, RF, CO, history);
                 ccChecker.checkCausalConsistency();
             }
-            if(CM){
+            if (CM) {
                 // get happen before
                 HappenBefore HB = new HappenBefore(lastIndex, PO, CO, history);
                 // Causal Memory checker
@@ -61,13 +69,16 @@ public class Checker {
     }
 
     public static void main(String[] args) {
-        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\history.edn";
-//        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\tiny_history.edn";
-//        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\small_history.edn";
-
-        int concurrency = 10;
-        Checker cheker = new Checker(url, concurrency);
-//        cheker.checkCausalConsistency();
-        cheker.checkCausalMemory();
+        int concurrency = 100;
+        String url = "tiny_history.edn";
+        boolean file = false;
+        if(args.length == 2 && args[0].matches("\\d+")){
+            concurrency = Integer.parseInt(args[0]);
+            url = args[1];
+            file = true;
+        }
+        Checker cheker = new Checker(url, concurrency, file);
+        cheker.checkCausalConsistency();
+//        cheker.checkCausalMemory();
     }
 }

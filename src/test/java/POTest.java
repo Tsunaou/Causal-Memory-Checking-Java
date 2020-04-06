@@ -12,9 +12,7 @@ public class POTest {
 
     @Test
     public void main() {
-        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\history.edn";
-//        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\tiny_history.edn";
-//        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\small_history.edn";
+        String url = "history.edn";
         int concurrency = 10;
         HistoryReader reader = new HistoryReader(url, concurrency);
         try {

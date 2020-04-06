@@ -108,3 +108,4 @@ target/classes/META-INF/
 target/classes/history.edn
 target/classes/small_history.edn
 target/generated-sources/
+target

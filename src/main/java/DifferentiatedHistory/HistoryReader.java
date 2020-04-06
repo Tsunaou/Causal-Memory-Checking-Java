@@ -22,11 +22,24 @@ public class HistoryReader {
     int concurrency;
     int idx;
 
-    public HistoryReader(String url, int concurrency) {
+    public HistoryReader(String url, int concurrency, boolean file) {
         this.url = url;
         this.concurrency = concurrency;
         this.idx = 0; // remove the index of :invoke and :failed
     }
+
+    public HistoryReader(String url, int concurrency) {
+        this.url = this.phraseResources(url);
+        this.concurrency = concurrency;
+        this.idx = 0; // remove the index of :invoke and :failed
+    }
+
+    String phraseResources(String url) {
+        String history = HistoryReader.class.getResource("/").getPath() + url;
+        System.out.println("Reading history in " + history);
+        return history;
+    }
+
 
     HistoryItem getHistoryItem(String line) {
         String[] subs = line.split(",");
@@ -45,6 +58,7 @@ public class HistoryReader {
     }
 
     public LinkedList<HistoryItem> readHistories() throws IOException {
+        System.out.println("Reading history in " + url);
         LinkedList<HistoryItem> histories = new LinkedList<HistoryItem>();
         BufferedReader in = new BufferedReader(new FileReader(this.url));
         String line;
@@ -68,7 +82,8 @@ public class HistoryReader {
 
 
     public static void main(String[] args) {
-        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\history.edn";
+
+        String url = "tiny_history.edn";
         HistoryReader reader = new HistoryReader(url, 10);
         try {
             reader.readHistories();
