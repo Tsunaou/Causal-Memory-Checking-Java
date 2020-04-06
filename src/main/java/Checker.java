@@ -16,22 +16,32 @@ public class Checker {
     int concurrency;
     HistoryReader reader;
     boolean file;
+    int maxIndex;
 
     public Checker(String url, int concurrency) {
         this.url = url;
         this.concurrency = concurrency;
         this.reader = new HistoryReader(url, concurrency);
+        this.maxIndex = Integer.MAX_VALUE;
     }
 
     public Checker(String url, int concurrency, boolean file) {
         this.url = url;
         this.concurrency = concurrency;
         this.reader = new HistoryReader(url, concurrency, file);
+        this.maxIndex = Integer.MAX_VALUE;
+    }
+
+    public Checker(String url, int concurrency, boolean file, int maxIndex) {
+        this.url = url;
+        this.concurrency = concurrency;
+        this.reader = new HistoryReader(url, concurrency, file);
+        this.maxIndex = maxIndex;
     }
 
     public void checkCausal(boolean CC, boolean CM) {
         try {
-            History history = reader.readHistory();
+            History history = reader.readHistory(maxIndex);
             int lastIndex = history.getLastIndex();
             System.err.println("LastIndex is " + lastIndex);
             // get program order
@@ -72,13 +82,32 @@ public class Checker {
         int concurrency = 100;
         String url = "tiny_history.edn";
         boolean file = false;
-        if(args.length == 2 && args[0].matches("\\d+")){
+        boolean typeCC = true;
+        int maxIndex = Integer.MAX_VALUE;
+        if (args.length == 3 && args[0].matches("\\d+")) {
             concurrency = Integer.parseInt(args[0]);
             url = args[1];
             file = true;
+            if (args[2].equals("CM")) {
+                typeCC = false;
+            }
         }
-        Checker cheker = new Checker(url, concurrency, file);
-        cheker.checkCausalConsistency();
-//        cheker.checkCausalMemory();
+        if (args.length == 4 && args[0].matches("\\d+") && args[3].matches("\\d+")) {
+            concurrency = Integer.parseInt(args[0]);
+            url = args[1];
+            file = true;
+            if (args[2].equals("CM")) {
+                typeCC = false;
+            }
+            maxIndex = Integer.parseInt(args[3]);
+        }
+
+
+        Checker cheker = new Checker(url, concurrency, file, maxIndex);
+        if (typeCC) {
+            cheker.checkCausalConsistency();
+        } else {
+            cheker.checkCausalMemory();
+        }
     }
 }

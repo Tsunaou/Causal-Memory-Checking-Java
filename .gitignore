@@ -93,7 +93,7 @@ fabric.properties
 .mtj.tmp/
 
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.nar
 *.ear
@@ -108,4 +108,6 @@ target/classes/META-INF/
 target/classes/history.edn
 target/classes/small_history.edn
 target/generated-sources/
-target
+target/maven-archiver
+target/maven-status
+target/surefire-reports

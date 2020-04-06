@@ -58,6 +58,10 @@ public class HistoryReader {
     }
 
     public LinkedList<HistoryItem> readHistories() throws IOException {
+        return readHistories(Integer.MAX_VALUE);
+    }
+
+    public LinkedList<HistoryItem> readHistories(int maxIndex) throws IOException {
         System.out.println("Reading history in " + url);
         LinkedList<HistoryItem> histories = new LinkedList<HistoryItem>();
         BufferedReader in = new BufferedReader(new FileReader(this.url));
@@ -66,17 +70,23 @@ public class HistoryReader {
             line = StringUtils.strip(line, "{}");
             HistoryItem history = this.getHistoryItem(line);
             if (history != null) {
-//                System.out.println(line);
-//                System.out.println(history);
-//                System.out.println();
                 histories.add(history);
             }
+            if (idx > maxIndex) {
+                break;
+            }
         }
+        in.close();
         return histories;
     }
 
     public History readHistory() throws IOException {
         LinkedList<HistoryItem> histories = readHistories();
+        return new History(histories);
+    }
+
+    public History readHistory(int maxIndex) throws IOException {
+        LinkedList<HistoryItem> histories = readHistories(maxIndex);
         return new History(histories);
     }
 
