@@ -82,8 +82,8 @@ public class Checker {
 
     public static void main(String[] args) {
         int concurrency = 100;
-//        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/adhoc/hy_history.edn";
-        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/small_history.edn";
+        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/adhoc/hy_history.edn";
+//        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/small_history.edn";
         boolean file = false;
         boolean typeCC = false;
         int maxIndex = Integer.MAX_VALUE;

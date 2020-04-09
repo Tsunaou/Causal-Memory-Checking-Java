@@ -1,18 +1,20 @@
 package Relation;
 
 import CausalLogger.CausalLogHandler;
+import CausalLogger.CheckerWithLogger;
 import Exception.ClosureException;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class PoSetMatrix implements PoSet {
+public class PoSetMatrix implements PoSet, CheckerWithLogger {
 
     private boolean[][] relations;
     private boolean isClose;  // whether the transitive closure is calculate
     private int size;
     protected Logger logger;
+    private boolean NO_LOGGER = false;
 
 
     public PoSetMatrix(int size) {
@@ -108,5 +110,23 @@ public class PoSetMatrix implements PoSet {
 
     public boolean isRelation(int i, int j) {
         return relations[i][j];
+    }
+
+    @Override
+    public void checkLoggerInfo(String message) {
+        if(LOGGER){
+            logger.info(message);
+        }else {
+            System.out.println(message);
+        }
+    }
+
+    @Override
+    public void checkLoggerWarning(String message) {
+        if(LOGGER){
+            logger.warning(message);
+        }else {
+            System.out.println(message);
+        }
     }
 }

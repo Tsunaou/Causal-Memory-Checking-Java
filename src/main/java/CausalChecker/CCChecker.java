@@ -8,8 +8,6 @@ import Relation.CausalOrder;
 import Relation.ProgramOrder;
 import Relation.ReadFrom;
 
-import java.util.Map;
-
 public class CCChecker extends CausalChecker {
 
     public CCChecker(ProgramOrder PO, ReadFrom RF, CausalOrder CO, History history) {
@@ -33,13 +31,13 @@ public class CCChecker extends CausalChecker {
 
 
     public void checkCausalConsistency() {
-        logger.info("Starting Check Causal Consistency");
+        checkLoggerInfo("Starting Check Causal Consistency");
         checkCC();
         printCheckStatus();
     }
 
     void checkCyclicCO() {
-        logger.info("Checking CyclicCO");
+        checkLoggerInfo("Checking CyclicCO");
         boolean cyclic = CycleChecker.Cyclic(CO.getRelations());
         if (cyclic) {
             badMap.put(BAD_PATTERN.CyclicCO, true);
@@ -47,7 +45,7 @@ public class CCChecker extends CausalChecker {
     }
 
     void checkWriteCOInitRead() {
-        logger.info("Checking WriteCOInitRead");
+        checkLoggerInfo("Checking WriteCOInitRead");
         for (HistoryItem write : writeHistories) {
             for (HistoryItem read : readHistories) {
                 if (!write.getK().equals(read.getK())) {
@@ -65,7 +63,7 @@ public class CCChecker extends CausalChecker {
     }
 
     void checkThinAirRead() {
-        logger.info("Checking ThinAirRead");
+        checkLoggerInfo("Checking ThinAirRead");
         boolean exists = false;
         for (HistoryItem read : readHistories) {
             int value = read.getV();
@@ -83,7 +81,7 @@ public class CCChecker extends CausalChecker {
     }
 
     void checkWriteCORead() {
-        logger.info("Checking WriteCORead");
+        checkLoggerInfo("Checking WriteCORead");
         for (HistoryItem w1 : writeHistories) {
             for (HistoryItem w2 : writeHistories) {
                 if (w1.getK().equals(w2.getK())) {

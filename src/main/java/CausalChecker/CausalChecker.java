@@ -1,7 +1,7 @@
 package CausalChecker;
 
 import BadPattern.BAD_PATTERN;
-import CausalLogger.CausalLogHandler;
+import CausalLogger.CheckerWithLogger;
 import DifferentiatedHistory.History;
 import DifferentiatedHistory.HistoryItem;
 import Relation.CausalOrder;
@@ -11,11 +11,10 @@ import Relation.ReadFrom;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CausalChecker {
+public class CausalChecker implements CheckerWithLogger {
 
     ProgramOrder PO;
     ReadFrom RF;
@@ -27,6 +26,7 @@ public class CausalChecker {
     LinkedList<HistoryItem> writeHistories;
     LinkedList<HistoryItem> readHistories;
     Logger logger;
+    boolean NO_LOGGER = true;
 
     public CausalChecker(ProgramOrder PO, ReadFrom RF, CausalOrder CO, History history) {
         this.PO = PO;
@@ -43,16 +43,33 @@ public class CausalChecker {
 
     public void printCheckStatus(){
         String checker = this.getClass().getName();
-        logger.info(checker + " outcome list");
+        checkLoggerInfo(checker + " outcome list");
         for (Map.Entry<BAD_PATTERN, Boolean> entry : badMap.entrySet()) {
             BAD_PATTERN bad = entry.getKey();
             boolean has_bad = entry.getValue();
-            logger.info("Collecting " + entry);
+            checkLoggerInfo("Collecting " + entry);
             if (has_bad) {
-                logger.warning("Inconsistency of " + bad);
+                checkLoggerWarning("Inconsistency of " + bad);
             }
         }
     }
 
 
+    @Override
+    public void checkLoggerInfo(String message) {
+        if(LOGGER){
+            logger.info(message);
+        }else {
+            System.out.println(message);
+        }
+    }
+
+    @Override
+    public void checkLoggerWarning(String message) {
+        if(LOGGER){
+            logger.warning(message);
+        }else {
+            System.out.println(message);
+        }
+    }
 }

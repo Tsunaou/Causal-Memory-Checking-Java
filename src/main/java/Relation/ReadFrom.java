@@ -17,7 +17,7 @@ public class ReadFrom extends PoSetMatrix {
     }
 
     public void calculateReadFrom(History history, int concurrency) {
-        logger.info("Calculating RF");
+        checkLoggerInfo("Calculating RF");
         LinkedList<HistoryItem> histories = history.getHistories();
         HashMap<String, HashMap<OP_TYPE, ArrayList<HistoryItem>>> groups = new HashMap<>();// group by key and func
         // group histories by key and type

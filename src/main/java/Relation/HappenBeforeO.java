@@ -15,7 +15,7 @@ public class HappenBeforeO extends PoSetMatrix {
     }
 
     public void calculateHappenBefore(ProgramOrder PO, CausalOrder CO, History history) {
-        logger.info("Calculating HBo " + oIndex);
+        checkLoggerInfo("Calculating HBo " + oIndex);
         // calculate CasualPast(o)
         LinkedList<Integer> causalPast = CO.CausalPast(oIndex);
         // CO|CausalPast(o) \subset HB_o

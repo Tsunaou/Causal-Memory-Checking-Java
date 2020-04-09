@@ -2,10 +2,11 @@ package CycleChecker;
 
 import CycleChecker.Johnson.ElementaryCyclesSearch;
 import org.jgrapht.Graph;
-import org.jgrapht.alg.cycle.CycleDetector;
+import org.jgrapht.alg.cycle.*;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CycleChecker {
@@ -27,7 +28,40 @@ public class CycleChecker {
         }
 
         CycleDetector<Integer, DefaultEdge> detector = new CycleDetector<Integer, DefaultEdge>(directedGraph);
-        return detector.detectCycles();
+//        boolean cyclic = detector.detectCycles();
+//        if (cyclic) {
+//            ArrayList<DirectedSimpleCycles> finders = new ArrayList<>();
+//            finders.add(new HawickJamesSimpleCycles<Integer, DefaultEdge>(directedGraph));
+//            finders.add(new JohnsonSimpleCycles(directedGraph));
+//            finders.add(new TarjanSimpleCycles(directedGraph));
+//            finders.add(new TiernanSimpleCycles(directedGraph));
+//            finders.add(new SzwarcfiterLauerSimpleCycles(directedGraph));
+//            for(DirectedSimpleCycles finder : finders){
+//                System.out.println(finder.getClass().getName());
+//                List<List<Integer>> cycles = finder.findSimpleCycles();
+//                for (List<Integer> list : cycles) {
+//                    for (Integer v : list) {
+//                        System.out.print(v + " ");
+//                    }
+//                    System.out.println();
+//                }
+//            }
+//        }
+        boolean cyclic = false;
+        HawickJamesSimpleCycles<Integer, DefaultEdge> finder = new HawickJamesSimpleCycles<Integer, DefaultEdge>(directedGraph);
+        List<List<Integer>> cycles = finder.findSimpleCycles();
+        System.out.println("==============================================");
+        for (List<Integer> list : cycles) {
+            if(list.size() > 1){
+                for (Integer v : list) {
+                    System.out.print(v + " ");
+                }
+                System.out.println();
+                cyclic = true;
+            }
+        }
+
+        return cyclic;
     }
 
     @Deprecated

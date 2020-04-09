@@ -15,7 +15,7 @@ public class ProgramOrder extends PoSetMatrix {
     }
 
     public void calculateProgramOrder(History history, int concurrency) {
-        logger.info("Calculating PO");
+        checkLoggerInfo("Calculating PO");
         LinkedList<HistoryItem> histories = history.getHistories();
         HashMap<Integer, ArrayList<HistoryItem>> groups = new HashMap<Integer, ArrayList<HistoryItem>>();  // group by process
         // initial list for each process

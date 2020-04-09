@@ -30,14 +30,14 @@ public class CMChecker extends CCChecker {
 
 
     public void checkCausalMemory() {
-        logger.info("Starting Check Causal Memory");
+        checkLoggerInfo("Starting Check Causal Memory");
         checkCC();
         checkCM();
         printCheckStatus();
     }
 
     void checkWriteHBInitRead() {
-        logger.info("Checking WriteHBInitRead");
+        checkLoggerInfo("Checking WriteHBInitRead");
         for (HistoryItem o : histories) {
             for (HistoryItem r : readHistories) {
                 if (PO.isPO(r, o) && r.readInit()) {
@@ -55,10 +55,10 @@ public class CMChecker extends CCChecker {
     }
 
     void checkCyclicHB() {
-        logger.info("Checking CyclicHB");
+        checkLoggerInfo("Checking CyclicHB");
         boolean cyclic;
         for (int oIndex : operations.keySet()) {
-            logger.info("Checking CyclicHB " + oIndex );
+            checkLoggerInfo("Checking CyclicHB " + oIndex );
             cyclic = CycleChecker.Cyclic(HB.getHBo(oIndex).getRelations());
             if (cyclic) {
                 badMap.put(BAD_PATTERN.CyclicHB, true);
