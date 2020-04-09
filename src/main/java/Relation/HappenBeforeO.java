@@ -19,6 +19,11 @@ public class HappenBeforeO extends PoSetMatrix {
         // calculate CasualPast(o)
         LinkedList<Integer> causalPast = CO.CausalPast(oIndex);
         // CO|CausalPast(o) \subset HB_o
+//        System.out.println("Causal Past");
+//        for (int i : causalPast) {
+//            System.out.print(i + ",");
+//        }
+//        System.out.println();
         for (int i : causalPast) {
             for (int j : causalPast) {
                 if (CO.isCO(i, j)) {
@@ -44,11 +49,15 @@ public class HappenBeforeO extends PoSetMatrix {
                 for (HistoryItem w2 : writeList) {
                     if ((w1.getK().equals(w2.getK())) && (w1.getV() != w2.getV())) {
                         for (HistoryItem r2 : readList) {
-                            if (isHBo(w1, r2) && PO.isPOEQ(r2, o) && (r2.getV() == w2.getV()) && !isHBo(w1, w2)) {
-                                addRelation(w1.getIndex(), w2.getIndex());
+                            if (r2.getK().equals(w1.getK())) {
+                                if (isHBo(w1, r2) && PO.isPOEQ(r2, o) && (r2.getV() == w2.getV()) && !isHBo(w1, w2)) {
+                                    addRelation(w1.getIndex(), w2.getIndex());
+//                                    System.out.printf("w1 is %d, w2 is %d, r2 is %d  ADD HBO (%d %d)\n",
+//                                            w1.getIndex(), w2.getIndex(), r2.getIndex(), w1.getIndex(), w2.getIndex());
 //                                System.out.println("Find new HB " + w1.getIndex() + ", " + w2.getIndex());
-                                flag = true;
-                                continue out;
+                                    flag = true;
+                                    continue out;
+                                }
                             }
                         }
                     }
@@ -69,18 +78,18 @@ public class HappenBeforeO extends PoSetMatrix {
 
     @Override
     public void checkLoggerInfo(String message) {
-        if(LOGGER){
+        if (LOGGER) {
             logger.info(message);
-        }else {
+        } else {
             System.out.println(message);
         }
     }
 
     @Override
     public void checkLoggerWarning(String message) {
-        if(LOGGER){
+        if (LOGGER) {
             logger.warning(message);
-        }else {
+        } else {
             System.out.println(message);
         }
     }

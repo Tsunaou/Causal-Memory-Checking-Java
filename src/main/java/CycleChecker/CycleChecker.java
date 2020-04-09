@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CycleChecker {
 
-    public static boolean CyclicHBo(boolean[][] relations, int index){
+    public static boolean CyclicHBo(boolean[][] relations, int index) {
         return Cyclic(relations);
     }
 
@@ -55,7 +55,7 @@ public class CycleChecker {
         HawickJamesSimpleCycles<Integer, DefaultEdge> finder = new HawickJamesSimpleCycles<Integer, DefaultEdge>(directedGraph);
         List<List<Integer>> cycles = finder.findSimpleCycles();
         for (List<Integer> list : cycles) {
-            if(list.size() > 1){
+            if (list.size() > 1) {
                 for (Integer v : list) {
                     System.out.print(v + " ");
                 }
@@ -63,7 +63,9 @@ public class CycleChecker {
                 cyclic = true;
             }
         }
-        System.out.println("==============================================");
+        if (cyclic) {
+            System.out.println("==============================================");
+        }
         return cyclic;
     }
 

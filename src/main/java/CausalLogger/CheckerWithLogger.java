@@ -1,7 +1,7 @@
 package CausalLogger;
 
 public interface CheckerWithLogger {
-    boolean LOGGER = false;
+    boolean LOGGER = true;
     void checkLoggerInfo(String message);
     void checkLoggerWarning(String message);
 }

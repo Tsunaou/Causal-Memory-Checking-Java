@@ -27,6 +27,11 @@ public class CMChecker extends CCChecker {
         for (Integer o : operations.keySet()) {
             HappenBeforeO HBo = new HappenBeforeO(size, o);
             HBo.calculateHappenBefore(PO, CO, history);
+//            if(o==7){
+//                PO.printRelationsMatrix();
+//                CO.printRelationsMatrix();
+//                HBo.printRelationsMatrix();
+//            }
 //            System.out.println("-----------------------------------------------------------------------");
 //            System.out.println("for operation" + history.getOperations().get(o));
             Thread subChecker = new Thread(() -> {
@@ -34,10 +39,17 @@ public class CMChecker extends CCChecker {
                 checkCyclicHB(HBo);
             });
             subChecker.start();
+            // TODO:
+            // FIXME:
+//            try {
+//                subChecker.join();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
             subCheckers.add(subChecker);
         }
         try {
-            for(Thread subChecker: subCheckers){
+            for (Thread subChecker : subCheckers) {
                 subChecker.join();
             }
         } catch (InterruptedException e) {
@@ -54,6 +66,11 @@ public class CMChecker extends CCChecker {
     }
 
     void checkWriteHBInitRead(HappenBeforeO HBo) {
+
+        if (badMap.get(BAD_PATTERN.WriteHBInitRead)) {
+            return;
+        }
+
         checkLoggerInfo("Checking WriteHBInitRead " + HBo.oIndex);
         HistoryItem o = operations.get(HBo.oIndex);
         for (HistoryItem r : readHistories) {
@@ -70,6 +87,11 @@ public class CMChecker extends CCChecker {
     }
 
     void checkCyclicHB(HappenBeforeO HBo) {
+
+        if (badMap.get(BAD_PATTERN.CyclicHB)) {
+            return;
+        }
+
         checkLoggerInfo("Checking CyclicHB " + HBo.oIndex);
         boolean cyclic = CycleChecker.Cyclic(HBo.getRelations());
         if (cyclic) {
@@ -79,18 +101,18 @@ public class CMChecker extends CCChecker {
 
     @Override
     public void checkLoggerInfo(String message) {
-        if(LOGGER){
+        if (LOGGER) {
             logger.info(message);
-        }else {
+        } else {
             System.out.println(message);
         }
     }
 
     @Override
     public void checkLoggerWarning(String message) {
-        if(LOGGER){
+        if (LOGGER) {
             logger.warning(message);
-        }else {
+        } else {
             System.out.println(message);
         }
     }

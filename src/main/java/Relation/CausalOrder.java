@@ -29,7 +29,7 @@ public class CausalOrder extends PoSetMatrix {
         boolean[][] co = getRelations();
         for (int i = 0; i < n; i++) {
             // TODO: <=
-            if(co[i][o] || i == o){
+            if(co[i][o] || o==i){
                 causalPast.add(i);
             }
         }

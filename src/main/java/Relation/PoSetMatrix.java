@@ -75,6 +75,28 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
 //        System.out.println(this.getClass().getName() + " has " + count + " relations");
     }
 
+    public void printRelationsMatrix() {
+        System.out.println(this.getClass().getName());
+        int n = size;
+        for (int i = 0; i < n + 1; i++) {
+            System.out.printf("%d\t", i - 1);
+        }
+        System.out.println();
+
+        for (int i = 0; i < n; i++) {
+            System.out.printf("%d\t", i );
+            for (int j = 0; j < n; j++) {
+                if(relations[i][j]){
+                    System.out.print("1\t");
+                }else{
+                    System.out.print("0\t");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
     public boolean[][] getRelations() {
         if (isClose) {
             return relations;
@@ -114,18 +136,18 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
 
     @Override
     public void checkLoggerInfo(String message) {
-        if(LOGGER){
+        if (LOGGER) {
             logger.info(message);
-        }else {
+        } else {
             System.out.println(message);
         }
     }
 
     @Override
     public void checkLoggerWarning(String message) {
-        if(LOGGER){
+        if (LOGGER) {
             logger.warning(message);
-        }else {
+        } else {
             System.out.println(message);
         }
     }
