@@ -47,9 +47,11 @@ public class Checker {
             // get program order
             ProgramOrder PO = new ProgramOrder(lastIndex);
             PO.calculateProgramOrder(history, concurrency);
+//            PO.printRelations();
             // get read-from
             ReadFrom RF = new ReadFrom(lastIndex);
             RF.calculateReadFrom(history, concurrency);
+//            RF.printRelations();
             // get causal order
             CausalOrder CO = new CausalOrder(lastIndex);
             CO.calculateCausalOrder(PO, RF);
@@ -80,9 +82,10 @@ public class Checker {
 
     public static void main(String[] args) {
         int concurrency = 100;
-        String url = "tiny_history.edn";
+//        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/adhoc/hy_history.edn";
+        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/small_history.edn";
         boolean file = false;
-        boolean typeCC = true;
+        boolean typeCC = false;
         int maxIndex = Integer.MAX_VALUE;
         if (args.length == 3 && args[0].matches("\\d+")) {
             concurrency = Integer.parseInt(args[0]);

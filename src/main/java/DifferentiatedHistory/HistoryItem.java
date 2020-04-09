@@ -6,18 +6,18 @@ import org.apache.commons.lang3.StringUtils;
 
 public class HistoryItem {
 
-    String type;
-    String f;
-    OP_TYPE optype;
-    String value;
-    int k;
-    int v;
-    int process;
-    long time;
-    long position;
-    String link; // TODO: link should not used
-    int index;
-    int concurrency;
+    private String type;
+    private String f;
+    private OP_TYPE optype;
+    private String value;
+    private String k;
+    private int v;
+    private int process;
+    private long time;
+    private long position;
+    private String link; // TODO: link should not used
+    private int index;
+    private int concurrency;
 
     public HistoryItem(String type, String f, String value, int process, long time, long position, String link, int index, int concurrency) {
         this.type = type;
@@ -31,7 +31,7 @@ public class HistoryItem {
         this.concurrency = concurrency;
 
         String[] kv = StringUtils.strip(value, "[]").split(" ");
-        this.k = Integer.parseInt(kv[0]);
+        this.k = kv[0];
         if (kv[1].equals("nil")) {
             this.v = -1;
         } else {
@@ -65,7 +65,7 @@ public class HistoryItem {
         return value;
     }
 
-    public int getK() {
+    public String getK() {
         return k;
     }
 

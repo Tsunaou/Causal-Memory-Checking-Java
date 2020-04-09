@@ -19,10 +19,10 @@ public class ReadFrom extends PoSetMatrix {
     public void calculateReadFrom(History history, int concurrency) {
         logger.info("Calculating RF");
         LinkedList<HistoryItem> histories = history.getHistories();
-        HashMap<Integer, HashMap<OP_TYPE, ArrayList<HistoryItem>>> groups = new HashMap<Integer, HashMap<OP_TYPE, ArrayList<HistoryItem>>>();// group by key and func
+        HashMap<String, HashMap<OP_TYPE, ArrayList<HistoryItem>>> groups = new HashMap<>();// group by key and func
         // group histories by key and type
         for (HistoryItem item : histories) {
-            int key = item.getK();
+            String key = item.getK();
             // TODO: improve here
             String func = item.getF();
             OP_TYPE type;
@@ -56,8 +56,8 @@ public class ReadFrom extends PoSetMatrix {
             }
         }
         // add sample read-from order
-        for (Map.Entry<Integer, HashMap<OP_TYPE, ArrayList<HistoryItem>>> entry : groups.entrySet()) {
-            int key = entry.getKey();
+        for (Map.Entry<String, HashMap<OP_TYPE, ArrayList<HistoryItem>>> entry : groups.entrySet()) {
+            String key = entry.getKey();
             ArrayList<HistoryItem> wlist = entry.getValue().get(OP_TYPE.WRITE);
             ArrayList<HistoryItem> rlist = entry.getValue().get(OP_TYPE.READ);
             if (wlist == null || rlist == null){

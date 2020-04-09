@@ -28,6 +28,19 @@ public class PoSetMatrix implements PoSet {
         relations[a][b] = true;
     }
 
+    @Deprecated
+    public void addNewLink(int a, int b) {
+        assert (relations[a][b]);
+        int n = this.size;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (relations[i][a] && relations[b][j] && !relations[i][j]) {
+                    relations[i][j] = true;
+                }
+            }
+        }
+    }
+
     public void calculateTransitiveClosure() {
         int n = this.size;
         for (int k = 0; k < n; k++) {
@@ -45,14 +58,19 @@ public class PoSetMatrix implements PoSet {
 
     public void printRelations() {
         int n = size;
+        int count = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (relations[i][j]) {
                     System.out.printf("(%d, %d), ", i, j);
+                    count = count + 1;
                 }
             }
         }
-        System.out.println();
+        if (count != 0) {
+            System.out.println();
+        }
+//        System.out.println(this.getClass().getName() + " has " + count + " relations");
     }
 
     public boolean[][] getRelations() {
@@ -88,7 +106,7 @@ public class PoSetMatrix implements PoSet {
         return size;
     }
 
-    public boolean isRelation(int i, int j){
+    public boolean isRelation(int i, int j) {
         return relations[i][j];
     }
 }

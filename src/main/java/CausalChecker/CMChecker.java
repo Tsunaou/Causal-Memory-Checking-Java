@@ -44,7 +44,7 @@ public class CMChecker extends CCChecker {
                     int oIndex = o.getIndex();
                     for (HistoryItem w : writeHistories) {
                         // w <HBo r and var(w) = var(r)
-                        if (HB.getHBo(oIndex).isHBo(w, r) && (w.getK() == r.getK())){
+                        if (HB.getHBo(oIndex).isHBo(w, r) && (w.getK().equals(r.getK()))){
                             badMap.put(BAD_PATTERN.WriteHBInitRead, true);
                             return;
                         }

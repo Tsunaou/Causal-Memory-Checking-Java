@@ -50,7 +50,7 @@ public class CCChecker extends CausalChecker {
         logger.info("Checking WriteCOInitRead");
         for (HistoryItem write : writeHistories) {
             for (HistoryItem read : readHistories) {
-                if (write.getK() != read.getK()) {
+                if (!write.getK().equals(read.getK())) {
                     continue;
                 }
                 if (CO.isCO(write, read)) {
@@ -86,7 +86,7 @@ public class CCChecker extends CausalChecker {
         logger.info("Checking WriteCORead");
         for (HistoryItem w1 : writeHistories) {
             for (HistoryItem w2 : writeHistories) {
-                if (w1.getK() == w2.getK()) {
+                if (w1.getK().equals(w2.getK())) {
                     for (HistoryItem r1 : readHistories) {
                         if (CO.isCO(w1, w2) && CO.isCO(w2, r1) && RF.isRF(w1, r1)) {
                             badMap.put(BAD_PATTERN.WriteCORead, true);

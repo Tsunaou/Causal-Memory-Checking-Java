@@ -51,4 +51,12 @@ public class ProgramOrder extends PoSetMatrix {
         return isPO(it1.getIndex(),it2.getIndex());
     }
 
+    public boolean isPOEQ(int i, int j){
+        return (i==j) || isPO(i,j);
+    }
+
+    public boolean isPOEQ(HistoryItem it1, HistoryItem it2){
+        return isPOEQ(it1.getIndex(),it2.getIndex());
+    }
+
 }

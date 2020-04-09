@@ -12,6 +12,9 @@ public class HappenBefore {
         for (Integer o : history.getOperations().keySet()) {
             HappenBeforeO HBo = new HappenBeforeO(size, o);
             HBo.calculateHappenBefore(PO, CO, history);
+//            System.out.println("-----------------------------------------------------------------------");
+//            System.out.println("for operation" + history.getOperations().get(o));
+//            HBo.printRelations();
             HB.put(o, HBo);
         }
     }
