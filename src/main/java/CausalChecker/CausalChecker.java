@@ -19,6 +19,7 @@ public class CausalChecker implements CheckerWithLogger {
     ProgramOrder PO;
     ReadFrom RF;
     CausalOrder CO;
+    History history;
     LinkedList<HistoryItem> histories;
     HashMap<Integer, HistoryItem> operations;
     HashMap<BAD_PATTERN, Boolean> badMap;
@@ -32,6 +33,7 @@ public class CausalChecker implements CheckerWithLogger {
         this.PO = PO;
         this.RF = RF;
         this.CO = CO;
+        this.history = history;
         this.histories = history.getHistories();
         this.operations = history.getOperations();
         this.badMap = new HashMap<BAD_PATTERN, Boolean>();

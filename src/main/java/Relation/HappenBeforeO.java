@@ -7,7 +7,7 @@ import java.util.LinkedList;
 
 public class HappenBeforeO extends PoSetMatrix {
 
-    int oIndex;
+    public int oIndex;
 
     public HappenBeforeO(int size, int oIndex) {
         super(size);
@@ -67,6 +67,23 @@ public class HappenBeforeO extends PoSetMatrix {
         return isHBo(it1.getIndex(), it2.getIndex());
     }
 
+    @Override
+    public void checkLoggerInfo(String message) {
+        if(LOGGER){
+            logger.info(message);
+        }else {
+            System.out.println(message);
+        }
+    }
+
+    @Override
+    public void checkLoggerWarning(String message) {
+        if(LOGGER){
+            logger.warning(message);
+        }else {
+            System.out.println(message);
+        }
+    }
 
     public static void main(String[] args) {
 

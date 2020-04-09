@@ -96,4 +96,22 @@ public class CCChecker extends CausalChecker {
         }
 
     }
+
+    @Override
+    public void checkLoggerInfo(String message) {
+        if(LOGGER){
+            logger.info(message);
+        }else {
+            System.out.println(message);
+        }
+    }
+
+    @Override
+    public void checkLoggerWarning(String message) {
+        if(LOGGER){
+            logger.warning(message);
+        }else {
+            System.out.println(message);
+        }
+    }
 }

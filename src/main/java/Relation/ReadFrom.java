@@ -86,4 +86,22 @@ public class ReadFrom extends PoSetMatrix {
     public boolean isRF(HistoryItem it1, HistoryItem it2){
         return isRF(it1.getIndex(),it2.getIndex());
     }
+
+    @Override
+    public void checkLoggerInfo(String message) {
+        if(LOGGER){
+            logger.info(message);
+        }else {
+            System.out.println(message);
+        }
+    }
+
+    @Override
+    public void checkLoggerWarning(String message) {
+        if(LOGGER){
+            logger.warning(message);
+        }else {
+            System.out.println(message);
+        }
+    }
 }

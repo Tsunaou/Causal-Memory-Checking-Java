@@ -61,10 +61,8 @@ public class Checker {
                 ccChecker.checkCausalConsistency();
             }
             if (CM) {
-                // get happen before
-                HappenBefore HB = new HappenBefore(lastIndex, PO, CO, history);
                 // Causal Memory checker
-                CMChecker cmChecker = new CMChecker(PO, RF, CO, HB, history);
+                CMChecker cmChecker = new CMChecker(PO, RF, CO, history);
                 cmChecker.checkCausalMemory();
             }
         } catch (IOException e) {
