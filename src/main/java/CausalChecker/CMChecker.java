@@ -34,11 +34,14 @@ public class CMChecker extends CCChecker {
 //            }
 //            System.out.println("-----------------------------------------------------------------------");
 //            System.out.println("for operation" + history.getOperations().get(o));
-            Thread subChecker = new Thread(() -> {
-                checkWriteHBInitRead(HBo);
-                checkCyclicHB(HBo);
-            });
-            subChecker.start();
+            checkWriteHBInitRead(HBo);
+            checkCyclicHB(HBo);
+
+//            Thread subChecker = new Thread(() -> {
+//                checkWriteHBInitRead(HBo);
+//                checkCyclicHB(HBo);
+//            });
+//            subChecker.start();
             // TODO:
             // FIXME:
 //            try {
@@ -46,7 +49,7 @@ public class CMChecker extends CCChecker {
 //            } catch (InterruptedException e) {
 //                e.printStackTrace();
 //            }
-            subCheckers.add(subChecker);
+//            subCheckers.add(subChecker);
         }
         try {
             for (Thread subChecker : subCheckers) {

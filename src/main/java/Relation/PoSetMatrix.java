@@ -4,6 +4,8 @@ import CausalLogger.CausalLogHandler;
 import CausalLogger.CheckerWithLogger;
 import Exception.ClosureException;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,23 +13,41 @@ import java.util.logging.Logger;
 public class PoSetMatrix implements PoSet, CheckerWithLogger {
 
     private boolean[][] relations;
+    private boolean[][] tc;
     private boolean isClose;  // whether the transitive closure is calculate
     private int size;
     protected Logger logger;
     private boolean NO_LOGGER = false;
 
+    // adjacency list
+    private HashSet<Integer>[] adjList;
 
     public PoSetMatrix(int size) {
         int n = size + 1;
         this.relations = new boolean[n][n];
+        this.tc = new boolean[n][n];
         this.size = n;
         this.isClose = false;
         this.logger = Logger.getLogger(this.getClass().getName());
         this.logger.setLevel(Level.ALL);
+        initAdjList();
+    }
+
+    // utility method to initialise adjacency list
+    @SuppressWarnings("unchecked")
+    private void initAdjList() {
+        adjList = new HashSet[size];
+        for (int i = 0; i < size; i++) {
+            adjList[i] = new HashSet<>();
+        }
     }
 
     public void addRelation(int a, int b) {
-        relations[a][b] = true;
+        if(!relations[a][b]){
+            relations[a][b] = true;
+            // Add v to u's list.
+            adjList[a].add(b);
+        }
     }
 
     @Deprecated
@@ -44,18 +64,61 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
     }
 
     public void calculateTransitiveClosure() {
+//        long start = System.currentTimeMillis();
         int n = this.size;
-        for (int k = 0; k < n; k++) {
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
-                    if (relations[i][j]) {
-                        continue;
-                    }
-                    relations[i][j] = relations[i][k] && relations[k][j];
+        this.transitiveClosure();
+//        for (int k = 0; k < n; k++) {
+//            for (int i = 0; i < n; i++) {
+//                for (int j = 0; j < n; j++) {
+//                    if (relations[i][j]) {
+//                        continue;
+//                    }
+//                    relations[i][j] = relations[i][k] && relations[k][j];
+//                }
+//            }
+//        }
+        // check
+//        for (int i = 0; i < n; i++) {
+//            assert (!relations[i][i]);
+//        }
+        isClose = true;
+//        long end = System.currentTimeMillis();
+//        System.out.println("Closure cost " + (end - start) + "ms");
+    }
+
+    public void transitiveClosure() {
+
+        // Call the recursive helper
+        // function to print DFS
+        // traversal starting from all
+        // vertices one by one
+        for (int i = 0; i < size; i++) {
+            for (int adj : adjList[i]) {
+                if (!tc[i][adj]) {
+                    dfsUtil(i, adj);
                 }
             }
         }
-        isClose = true;
+
+        this.relations = this.tc;
+        this.tc = new boolean[size][size];
+
+    }
+
+    private void dfsUtil(int s, int v) {
+
+        // Mark reachability from
+        // s to v as true.
+        tc[s][v] = true;
+
+
+        // Find all the vertices reachable
+        // through v
+        for (int adj : adjList[v]) {
+            if (!tc[s][adj]) {
+                dfsUtil(s, adj);
+            }
+        }
     }
 
     public void printRelations() {
@@ -84,11 +147,11 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
         System.out.println();
 
         for (int i = 0; i < n; i++) {
-            System.out.printf("%d\t", i );
+            System.out.printf("%d\t", i);
             for (int j = 0; j < n; j++) {
-                if(relations[i][j]){
+                if (relations[i][j]) {
                     System.out.print("1\t");
-                }else{
+                } else {
                     System.out.print("0\t");
                 }
             }
@@ -106,6 +169,19 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
         }
     }
 
+    public boolean[][] getRelations(boolean force) {
+        if (force) {
+            return relations;
+        } else {
+            System.out.println("Transitive closure is not calculated");
+            return null;
+        }
+    }
+
+    public boolean[][] getTc() {
+        return tc;
+    }
+
     public void union(PoSetMatrix s1, PoSetMatrix s2) {
         assert (s1.size == s2.size);
         assert (size == s1.size);
@@ -116,7 +192,9 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
         int n = size;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                relations[i][j] = r1[i][j] || r2[i][j];
+                if (r1[i][j] || r2[i][j]) {
+                    addRelation(i, j);
+                }
             }
         }
 
