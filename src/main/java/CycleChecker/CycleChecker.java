@@ -16,57 +16,45 @@ public class CycleChecker {
     }
 
     public static boolean Cyclic(boolean[][] relations) {
-        int n = relations.length;
-        String[] nodes = new String[n];
-        Graph<Integer, DefaultEdge> directedGraph = new DefaultDirectedGraph<Integer, DefaultEdge>(DefaultEdge.class);
-        for (int i = 0; i < n; i++) {
-            directedGraph.addVertex(i);
-        }
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (relations[i][j]) {
-                    directedGraph.addEdge(i, j);
-
-                }
+        for (int i = 0; i < relations.length; i++) {
+            if (relations[i][i]) {
+                return true;
             }
         }
+        return false;
 
-        CycleDetector<Integer, DefaultEdge> detector = new CycleDetector<Integer, DefaultEdge>(directedGraph);
-//        boolean cyclic = detector.detectCycles();
-//        if (cyclic) {
-//            ArrayList<DirectedSimpleCycles> finders = new ArrayList<>();
-//            finders.add(new HawickJamesSimpleCycles<Integer, DefaultEdge>(directedGraph));
-//            finders.add(new JohnsonSimpleCycles(directedGraph));
-//            finders.add(new TarjanSimpleCycles(directedGraph));
-//            finders.add(new TiernanSimpleCycles(directedGraph));
-//            finders.add(new SzwarcfiterLauerSimpleCycles(directedGraph));
-//            for(DirectedSimpleCycles finder : finders){
-//                System.out.println(finder.getClass().getName());
-//                List<List<Integer>> cycles = finder.findSimpleCycles();
-//                for (List<Integer> list : cycles) {
-//                    for (Integer v : list) {
-//                        System.out.print(v + " ");
-//                    }
-//                    System.out.println();
+//        int n = relations.length;
+//        String[] nodes = new String[n];
+//        Graph<Integer, DefaultEdge> directedGraph = new DefaultDirectedGraph<Integer, DefaultEdge>(DefaultEdge.class);
+//        for (int i = 0; i < n; i++) {
+//            directedGraph.addVertex(i);
+//        }
+//        for (int i = 0; i < n; i++) {
+//            for (int j = 0; j < n; j++) {
+//                if (relations[i][j]) {
+//                    directedGraph.addEdge(i, j);
+//
 //                }
 //            }
 //        }
-        boolean cyclic = false;
-        HawickJamesSimpleCycles<Integer, DefaultEdge> finder = new HawickJamesSimpleCycles<Integer, DefaultEdge>(directedGraph);
-        List<List<Integer>> cycles = finder.findSimpleCycles();
-        for (List<Integer> list : cycles) {
-            if (list.size() > 1) {
-                for (Integer v : list) {
-                    System.out.print(v + " ");
-                }
-                System.out.println();
-                cyclic = true;
-            }
-        }
-        if (cyclic) {
-            System.out.println("==============================================");
-        }
-        return cyclic;
+
+//        CycleDetector<Integer, DefaultEdge> detector = new CycleDetector<Integer, DefaultEdge>(directedGraph);
+//        boolean cyclic = false;
+//        HawickJamesSimpleCycles<Integer, DefaultEdge> finder = new HawickJamesSimpleCycles<Integer, DefaultEdge>(directedGraph);
+//        List<List<Integer>> cycles = finder.findSimpleCycles();
+//        for (List<Integer> list : cycles) {
+//            if (list.size() > 1) {
+//                for (Integer v : list) {
+//                    System.out.print(v + " ");
+//                }
+//                System.out.println();
+//                cyclic = true;
+//            }
+//        }
+//        if (cyclic) {
+//            System.out.println("==============================================");
+//        }
+//        return cyclic;
     }
 
     @Deprecated

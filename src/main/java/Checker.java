@@ -81,7 +81,7 @@ public class Checker {
 
     public static void main(String[] args) {
 
-        long start = System.currentTimeMillis();
+//        long start = System.currentTimeMillis();
 
         int concurrency = 100;
 //        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/adhoc/hy_history.edn";
@@ -91,7 +91,7 @@ public class Checker {
         boolean file = false;
         boolean typeCC = false;
         int maxIndex = Integer.MAX_VALUE;
-        maxIndex = 1000;
+        maxIndex = 500;
         if (args.length == 3 && args[0].matches("\\d+")) {
             concurrency = Integer.parseInt(args[0]);
             url = args[1];
@@ -118,8 +118,8 @@ public class Checker {
             cheker.checkCausalMemory();
         }
 
-        long end = System.currentTimeMillis();
-        System.out.println("Cost " + (end-start) + " ms");
+//        long end = System.currentTimeMillis();
+//        System.out.println("Cost " + (end-start) + " ms");
 
     }
 }
