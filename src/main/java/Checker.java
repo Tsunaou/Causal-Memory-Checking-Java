@@ -86,12 +86,14 @@ public class Checker {
         int concurrency = 100;
 //        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/adhoc/hy_history.edn";
 //        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/history.edn";
-        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/latest/history.edn";
+//        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/latest/history.edn";
+//        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\adhoc\\paper_history_2.edn";
+        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\latest\\history.edn";
 //        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/adhoc/paper_history.edn";
         boolean file = false;
         boolean typeCC = false;
         int maxIndex = Integer.MAX_VALUE;
-        maxIndex = 500;
+        maxIndex = 2000;
         if (args.length == 3 && args[0].matches("\\d+")) {
             concurrency = Integer.parseInt(args[0]);
             url = args[1];

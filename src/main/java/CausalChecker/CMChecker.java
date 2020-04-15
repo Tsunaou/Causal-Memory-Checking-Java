@@ -25,7 +25,7 @@ public class CMChecker extends CCChecker {
         int size = PO.getSize();
         ArrayList<Thread> subCheckers = new ArrayList<>();
         for (Integer o : operations.keySet()) {
-            HappenBeforeO HBo = new HappenBeforeO(size, o);
+            HappenBeforeO HBo = new HappenBeforeO(size-1, o);
             HBo.calculateHappenBefore(PO, CO, history);
 //            if(o==7){
 //                PO.printRelationsMatrix();
@@ -96,7 +96,7 @@ public class CMChecker extends CCChecker {
         }
 
         checkLoggerInfo("Checking CyclicHB " + HBo.oIndex);
-        boolean cyclic = CycleChecker.Cyclic(HBo.getRelations());
+        boolean cyclic = CycleChecker.Cyclic(HBo.getRelations(true));
         if (cyclic) {
             badMap.put(BAD_PATTERN.CyclicHB, true);
         }
