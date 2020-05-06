@@ -103,15 +103,18 @@ public class HappenBeforeO extends PoSetMatrix {
             count_continue = count_continue + 1;
             flag = false;
 //            calculateTransitiveClosure();
-            for (HistoryItem w1 : writeList) {
-                for (HistoryItem w2 : writeList) {
-                    if ((w1.getK().equals(w2.getK())) && (w1.getV() != w2.getV())) {
-                        for (HistoryItem r2 : readList) {
-                            if (r2.getK().equals(w1.getK())) {
-                                if (isHBo(w1, r2) && PO.isPOEQ(r2, o) && (r2.getV() == w2.getV()) && !isHBo(w1, w2)) {
-//                                    System.out.println("------- isHBo(" + w1.getIndex() + "," + w2.getIndex() + ") is " + isHBo(w1, w2));
-//                                    update_link(w1.getIndex(), w2.getIndex());
-//                                    addRelation(w1.getIndex(), w2.getIndex());
+
+            for (String x : history.getOpKeySets()) {
+                for (int i : history.getReadGroupByKey().get(x)) {
+                    HistoryItem r2 = history.getOperations().get(i);
+                    if (PO.isPOEQ(r2, o)) {
+                        if (history.getReadFrom().containsKey(i)) {
+                            HistoryItem w2 = history.getOperations().get(history.getReadFrom().get(i));
+                            for (int j : history.getWriteGroupByKey().get(x)) {
+                                HistoryItem w1 = history.getOperations().get(j);
+                                int d1 = w1.getV();
+                                int d2 = w2.getV();
+                                if (d1 != d2 && !isHBo(w1, w2) && isHBo(w1, r2)) {
                                     update_HBo(w1.getIndex(), w2.getIndex());
 //                                    System.out.printf("w1 is %d, w2 is %d, r2 is %d  ADD HBO (%d %d)\n",
 //                                            w1.getIndex(), w2.getIndex(), r2.getIndex(), w1.getIndex(), w2.getIndex());
@@ -124,9 +127,31 @@ public class HappenBeforeO extends PoSetMatrix {
                     }
                 }
             }
+
+//            for (HistoryItem w1 : writeList) {
+//                for (HistoryItem w2 : writeList) {
+//                    if ((w1.getK().equals(w2.getK())) && (w1.getV() != w2.getV())) {
+//                        for (HistoryItem r2 : readList) {
+//                            if (r2.getK().equals(w1.getK())) {
+//                                if (isHBo(w1, r2) && PO.isPOEQ(r2, o) && (r2.getV() == w2.getV()) && !isHBo(w1, w2)) {
+////                                    System.out.println("------- isHBo(" + w1.getIndex() + "," + w2.getIndex() + ") is " + isHBo(w1, w2));
+////                                    update_link(w1.getIndex(), w2.getIndex());
+////                                    addRelation(w1.getIndex(), w2.getIndex());
+//                                    update_HBo(w1.getIndex(), w2.getIndex());
+////                                    System.out.printf("w1 is %d, w2 is %d, r2 is %d  ADD HBO (%d %d)\n",
+////                                            w1.getIndex(), w2.getIndex(), r2.getIndex(), w1.getIndex(), w2.getIndex());
+////                                    System.out.println("Find new HB " + w1.getIndex() + ", " + w2.getIndex());
+//                                    flag = true;
+//                                    continue out;
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
         }
         // Second Closure
-//        calculateTransitiveClosure();
+        calculateTransitiveClosure();
     }
 
     @Override

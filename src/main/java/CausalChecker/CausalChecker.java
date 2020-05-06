@@ -8,6 +8,7 @@ import Relation.CausalOrder;
 import Relation.ProgramOrder;
 import Relation.ReadFrom;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -21,7 +22,7 @@ public class CausalChecker implements CheckerWithLogger {
     CausalOrder CO;
     History history;
     LinkedList<HistoryItem> histories;
-    HashMap<Integer, HistoryItem> operations;
+    ArrayList<HistoryItem> operations;
     HashMap<BAD_PATTERN, Boolean> badMap;
 
     LinkedList<HistoryItem> writeHistories;

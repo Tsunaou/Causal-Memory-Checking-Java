@@ -9,7 +9,7 @@ public class HappenBefore {
 
     public HappenBefore(int size, ProgramOrder PO, CausalOrder CO, History history) {
         this.HB = new HashMap<Integer, HappenBeforeO>();
-        for (Integer o : history.getOperations().keySet()) {
+        for (int o = 0; o < history.getOperations().size(); o++) {
             HappenBeforeO HBo = new HappenBeforeO(size, o);
             HBo.calculateHappenBefore(PO, CO, history);
 //            System.out.println("-----------------------------------------------------------------------");

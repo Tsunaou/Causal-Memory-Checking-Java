@@ -1,12 +1,9 @@
 package Relation;
 
-import CausalLogger.CausalLogHandler;
 import CausalLogger.CheckerWithLogger;
-import Exception.ClosureException;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.logging.ConsoleHandler;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +17,7 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
     private boolean NO_LOGGER = false;
 
     // adjacency list
-    private HashSet<Integer>[] adjList;
+    private LinkedList<Integer>[] adjList;
 
     public PoSetMatrix(int size) {
         int n = size + 1;
@@ -36,9 +33,9 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
     // utility method to initialise adjacency list
     @SuppressWarnings("unchecked")
     private void initAdjList() {
-        adjList = new HashSet[size];
+        adjList = new LinkedList[size];
         for (int i = 0; i < size; i++) {
-            adjList[i] = new HashSet<>();
+            adjList[i] = new LinkedList<Integer>();
         }
     }
 
@@ -101,7 +98,7 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
         }
 
         this.relations = this.tc;
-        this.tc = new boolean[size][size];
+//        this.tc = new boolean[size][size];
 
     }
 

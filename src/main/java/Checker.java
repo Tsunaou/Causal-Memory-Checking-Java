@@ -84,11 +84,11 @@ public class Checker {
 //        long start = System.currentTimeMillis();
 
         int concurrency = 100;
-//        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/adhoc/hy_history.edn";
+//        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/adhoc/paper_history.edn";
 //        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/history.edn";
-//        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/latest/history.edn";
+        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/latest/history.edn";
 //        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\adhoc\\paper_history_2.edn";
-        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\latest\\history.edn";
+//        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\latest\\history.edn";
 //        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/adhoc/paper_history.edn";
         boolean file = false;
         boolean typeCC = false;
