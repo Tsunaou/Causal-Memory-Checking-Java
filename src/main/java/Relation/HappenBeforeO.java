@@ -3,6 +3,8 @@ package Relation;
 import DifferentiatedHistory.History;
 import DifferentiatedHistory.HistoryItem;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -186,7 +188,8 @@ public class HappenBeforeO extends PoSetMatrix {
         if (LOGGER) {
             logger.info(message);
         } else {
-            System.out.println(message);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            System.out.println(df.format(new Date())+" " + message);
         }
     }
 
@@ -195,7 +198,8 @@ public class HappenBeforeO extends PoSetMatrix {
         if (LOGGER) {
             logger.warning(message);
         } else {
-            System.out.println(message);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            System.out.println(df.format(new Date())+" " + message);
         }
     }
 

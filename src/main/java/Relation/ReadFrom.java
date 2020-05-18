@@ -3,12 +3,9 @@ package Relation;
 import DifferentiatedHistory.History;
 import DifferentiatedHistory.HistoryItem;
 import Operation.OP_TYPE;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
 
-
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 public class ReadFrom extends PoSetMatrix {
@@ -92,7 +89,8 @@ public class ReadFrom extends PoSetMatrix {
         if(LOGGER){
             logger.info(message);
         }else {
-            System.out.println(message);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            System.out.println(df.format(new Date())+" " + message);
         }
     }
 
@@ -101,7 +99,8 @@ public class ReadFrom extends PoSetMatrix {
         if(LOGGER){
             logger.warning(message);
         }else {
-            System.out.println(message);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            System.err.println(df.format(new Date())+" " + message);
         }
     }
 }

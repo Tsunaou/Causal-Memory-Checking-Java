@@ -8,10 +8,8 @@ import Relation.CausalOrder;
 import Relation.ProgramOrder;
 import Relation.ReadFrom;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,7 +61,8 @@ public class CausalChecker implements CheckerWithLogger {
         if(LOGGER){
             logger.info(message);
         }else {
-            System.out.println(message);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            System.out.println(df.format(new Date())+" " + message);
         }
     }
 
@@ -72,7 +71,8 @@ public class CausalChecker implements CheckerWithLogger {
         if(LOGGER){
             logger.warning(message);
         }else {
-            System.out.println(message);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            System.err.println(df.format(new Date())+" " + message);
         }
     }
 }

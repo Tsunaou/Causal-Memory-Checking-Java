@@ -2,6 +2,8 @@ package Relation;
 
 import DifferentiatedHistory.HistoryItem;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 
 public class CausalOrder extends PoSetMatrix {
@@ -41,7 +43,8 @@ public class CausalOrder extends PoSetMatrix {
         if(LOGGER){
             logger.info(message);
         }else {
-            System.out.println(message);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            System.out.println(df.format(new Date())+" " + message);
         }
     }
 
@@ -50,7 +53,8 @@ public class CausalOrder extends PoSetMatrix {
         if(LOGGER){
             logger.warning(message);
         }else {
-            System.out.println(message);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            System.err.println(df.format(new Date())+" " + message);
         }
     }
 }

@@ -8,6 +8,9 @@ import Relation.CausalOrder;
 import Relation.ProgramOrder;
 import Relation.ReadFrom;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class CCChecker extends CausalChecker {
 
     public CCChecker(ProgramOrder PO, ReadFrom RF, CausalOrder CO, History history) {
@@ -102,7 +105,8 @@ public class CCChecker extends CausalChecker {
         if(LOGGER){
             logger.info(message);
         }else {
-            System.out.println(message);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            System.out.println(df.format(new Date())+" " + message);
         }
     }
 
@@ -111,7 +115,8 @@ public class CCChecker extends CausalChecker {
         if(LOGGER){
             logger.warning(message);
         }else {
-            System.out.println(message);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            System.err.println(df.format(new Date())+" " + message);
         }
     }
 }

@@ -2,7 +2,9 @@ package Relation;
 
 import CausalLogger.CheckerWithLogger;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -214,7 +216,8 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
         if (LOGGER) {
             logger.info(message);
         } else {
-            System.out.println(message);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            System.out.println(df.format(new Date())+" " + message);
         }
     }
 
@@ -223,7 +226,8 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
         if (LOGGER) {
             logger.warning(message);
         } else {
-            System.out.println(message);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            System.out.println(df.format(new Date())+" " + message);
         }
     }
 }
