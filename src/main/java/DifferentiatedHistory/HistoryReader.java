@@ -57,6 +57,22 @@ public class HistoryReader {
         return new HistoryItem(type, f, value, process, time, position, link, index, concurrency);
     }
 
+    HistoryItem getHistoryItemJepsenLog(String line) {
+        String[] subs = line.split(",");
+        String type = StringUtils.remove(subs[0], KEY_TYPE);
+        if (!type.equals(":ok")) {
+            return null;
+        }
+        String f = StringUtils.remove(subs[1], KEY_F);
+        String value = StringUtils.remove(subs[2], KEY_VALUE);
+        int process = Integer.parseInt(StringUtils.remove(subs[3], KEY_PROCESS));
+        long time = Long.parseLong(StringUtils.remove(subs[4], KEY_TIME));
+        long position = Long.parseLong(StringUtils.remove(subs[5], KEY_POSITION));
+        String link = StringUtils.remove(subs[6], KEY_LINK);
+        int index = idx++;
+        return new HistoryItem(type, f, value, process, time, position, link, index, concurrency);
+    }
+
     public LinkedList<HistoryItem> readHistories() throws IOException {
         return readHistories(Integer.MAX_VALUE);
     }
@@ -80,23 +96,50 @@ public class HistoryReader {
         return histories;
     }
 
+    public LinkedList<HistoryItem> readHistoriesInJepsenLog(int maxIndex) throws IOException {
+        System.out.println("Reading history in " + url);
+        LinkedList<HistoryItem> histories = new LinkedList<HistoryItem>();
+        BufferedReader in = new BufferedReader(new FileReader(this.url));
+        String line;
+        while ((line = in.readLine()) != null) {
+            line = StringUtils.strip(line, "{}");
+            HistoryItem history = this.getHistoryItemJepsenLog(line);
+            if (history != null) {
+                histories.add(history);
+            }
+            if (idx > maxIndex) {
+                break;
+            }
+        }
+        in.close();
+        return histories;
+    }
+
     public History readHistory() throws IOException {
         LinkedList<HistoryItem> histories = readHistories();
         return new History(histories);
     }
 
     public History readHistory(int maxIndex) throws IOException {
-        LinkedList<HistoryItem> histories = readHistories(maxIndex);
+        LinkedList<HistoryItem> histories = null;
+        if (this.url.contains(".edn")) {
+            histories = readHistories(maxIndex);
+        } else if (this.url.contains(".log")) {
+            histories = readHistoriesInJepsenLog(maxIndex);
+        } else {
+            System.err.println("Invalid history file");
+            System.exit(-1);
+        }
         return new History(histories);
     }
 
 
     public static void main(String[] args) {
 
-        String url = "tiny_history.edn";
+        String url = "/home/young/Desktop/NJU-Bachelor/mongodb/store/mongo-causal-register-wc-:w1-rc-:local-ti-360-sd-2-cry-100-wn-50-rn-50-cpk-25-no-nemesis/jepsen-no-nemesis.log";
         HistoryReader reader = new HistoryReader(url, 10);
         try {
-            reader.readHistories();
+            reader.readHistories(100);
         } catch (IOException e) {
             e.printStackTrace();
         }
