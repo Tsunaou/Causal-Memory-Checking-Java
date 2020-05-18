@@ -109,12 +109,18 @@ public class Checker implements CheckerWithLogger {
         // 并发100 写50 读50 每键5客户端 w1 local
 //        String pre = "/home/young/Desktop/NJU-Bachelor/mongodb/store/mongo-causal-register-wc-:w1-rc-:local-ti-360-sd-2-cry-100-wn-50-rn-50-cpk-5/latest/";
         // 并发100 写50 读50 每键20客户端
-        String pre = "/home/young/Desktop/NJU-Bachelor/mongodb/store/mongo-causal-register-wc-:majority-rc-:majority-ti-360-sd-2-cry-100-wn-50-rn-50-cpk-20/latest/";
-        String url = pre + "history.edn";
+//        String pre = "/home/young/Desktop/NJU-Bachelor/mongodb/store/mongo-causal-register-wc-:majority-rc-:majority-ti-360-sd-2-cry-100-wn-50-rn-50-cpk-20/latest/";
+//        String url = pre + "history.edn";
+
+        // no-nemesis
+        String url = "E:\\大四下\\毕业设计\\Datas\\datas\\store\\" +
+                "mongo-causal-register-wc-_w1-rc-_local-ti-360-sd-2-cry-100-wn-50-rn-50-cpk-10-no-nemesis\\" +
+                "jepsen-no-nemesis.log";
+
         boolean file = false;
         boolean typeCC = false;
         int maxIndex = Integer.MAX_VALUE;
-        maxIndex = 5000;
+        maxIndex = 2000;
         if (args.length == 3 && args[0].matches("\\d+")) {
             concurrency = Integer.parseInt(args[0]);
             url = args[1];
