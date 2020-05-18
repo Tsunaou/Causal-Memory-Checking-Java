@@ -3,6 +3,7 @@ package Relation;
 import DifferentiatedHistory.History;
 import DifferentiatedHistory.HistoryItem;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -103,24 +104,31 @@ public class HappenBeforeO extends PoSetMatrix {
             count_continue = count_continue + 1;
             flag = false;
 //            calculateTransitiveClosure();
-
+            HashSet<Integer> rList = null;
+            HashSet<Integer> wList = null;
             for (String x : history.getOpKeySets()) {
-                for (int i : history.getReadGroupByKey().get(x)) {
-                    HistoryItem r2 = history.getOperations().get(i);
-                    if (PO.isPOEQ(r2, o)) {
-                        if (history.getReadFrom().containsKey(i)) {
-                            HistoryItem w2 = history.getOperations().get(history.getReadFrom().get(i));
-                            for (int j : history.getWriteGroupByKey().get(x)) {
-                                HistoryItem w1 = history.getOperations().get(j);
-                                int d1 = w1.getV();
-                                int d2 = w2.getV();
-                                if (d1 != d2 && !isHBo(w1, w2) && isHBo(w1, r2)) {
-                                    update_HBo(w1.getIndex(), w2.getIndex());
+                rList = history.getReadGroupByKey().get(x);
+                if (rList != null) {
+                    for (int i : rList) {
+                        HistoryItem r2 = history.getOperations().get(i);
+                        if (PO.isPOEQ(r2, o)) {
+                            if (history.getReadFrom().containsKey(i)) {
+                                HistoryItem w2 = history.getOperations().get(history.getReadFrom().get(i));
+                                wList = history.getWriteGroupByKey().get(x);
+                                if (wList != null) {
+                                    for (int j : wList) {
+                                        HistoryItem w1 = history.getOperations().get(j);
+                                        int d1 = w1.getV();
+                                        int d2 = w2.getV();
+                                        if (d1 != d2 && !isHBo(w1, w2) && isHBo(w1, r2)) {
+                                            update_HBo(w1.getIndex(), w2.getIndex());
 //                                    System.out.printf("w1 is %d, w2 is %d, r2 is %d  ADD HBO (%d %d)\n",
 //                                            w1.getIndex(), w2.getIndex(), r2.getIndex(), w1.getIndex(), w2.getIndex());
 //                                    System.out.println("Find new HB " + w1.getIndex() + ", " + w2.getIndex());
-                                    flag = true;
-                                    continue out;
+                                            flag = true;
+                                            continue out;
+                                        }
+                                    }
                                 }
                             }
                         }
