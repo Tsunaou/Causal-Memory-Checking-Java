@@ -57,8 +57,9 @@ public class CCChecker extends CausalChecker {
                 if (CO.isCO(write, read)) {
                     if (read.readInit()) {
                         // TODO: record more information
-                        badMap.put(BAD_PATTERN.ThinAirRead, true);
-                        return;
+                        System.out.println("WriteCOInitRead in " + write + read);
+                        badMap.put(BAD_PATTERN.WriteCOInitRead, true);
+//                        return;
                     }
                 }
             }
@@ -79,7 +80,7 @@ public class CCChecker extends CausalChecker {
             }
         }
         if (!exists) {
-            badMap.put(BAD_PATTERN.WriteCOInitRead, true);
+            badMap.put(BAD_PATTERN.ThinAirRead, true);
         }
     }
 
