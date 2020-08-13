@@ -3,10 +3,7 @@ package CausalChecker;
 import BadPattern.BAD_PATTERN;
 import CycleChecker.CycleChecker;
 import DifferentiatedHistory.History;
-import Relation.CausalOrder;
-import Relation.ConflictRelation;
-import Relation.ProgramOrder;
-import Relation.ReadFrom;
+import Relation.*;
 
 public class CCvChecker extends CCChecker{
     ConflictRelation CF;
@@ -33,10 +30,27 @@ public class CCvChecker extends CCChecker{
         printCheckStatus();
     }
 
+    public PoSetMatrix union(PoSetMatrix s1, PoSetMatrix s2) {
+        assert (s1.getSize() == s2.getSize());
+        int n = s1.getSize();
+
+        boolean[][] r1 = s1.getRelations(true);
+        boolean[][] r2 = s2.getRelations(true);
+        PoSetMatrix res = new PoSetMatrix(n-1);
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (r1[i][j] || r2[i][j]) {
+                    res.addRelation(i, j);
+                }
+            }
+        }
+        return res;
+    }
     protected void checkCyclicCF(){
         checkLoggerInfo("Checking CyclicCF");
 //        CF.printRelationsMatrix();
-        boolean cyclic = CycleChecker.Cyclic(CF.getRelations(true));
+        boolean cyclic = CycleChecker.Cyclic(union(CF, CO).getRelations(true));
         if (cyclic) {
             badMap.put(BAD_PATTERN.CyclicCF, true);
         }
