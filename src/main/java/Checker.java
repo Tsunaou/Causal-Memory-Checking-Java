@@ -96,12 +96,12 @@ public class Checker implements CheckerWithLogger {
         long start = System.currentTimeMillis();
 
         int concurrency = 100;
-//        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/adhoc/paper_history.edn";
+//        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/adhoc/paper_history_c.edn";
 //        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/history.edn";
 //        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/latest/history.edn";
-        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\adhoc\\trz_history.edn";
+        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\adhoc\\paper_history_e.edn";
 //        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\latest\\history.edn";
-//        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/adhoc/paper_history.edn";
+//        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/adhoc/paper_history_c.edn";
         // 并发100 写50 读50 每键5客户端
 //        String pre = "/home/young/Desktop/NJU-Bachelor/mongodb/store/mongo-causal-register-wc-:majority-rc-:majority-ti-360-sd-2-cry-100-wn-50-rn-50-cpk-5/latest/";
         // 并发100 写100 读100 每键5客户端
@@ -113,7 +113,7 @@ public class Checker implements CheckerWithLogger {
         // 并发100 写50 读50 每键20客户端
 //        String pre = "/home/young/Desktop/NJU-Bachelor/mongodb/store/mongo-causal-register-wc-:majority-rc-:majority-ti-360-sd-2-cry-100-wn-50-rn-50-cpk-20/latest/";
 //        String url = pre + "history.edn";
-
+//        String url = "E:\\NJU ICS\\Disalg Learning\\Internetware-2020-DataSets-200r-100w\\mongo-causal-register-wc-_w1-rc-_local-ti-180-sd-2-cry-100-wn-100-rn-200-cpk-20-node-failure\\20200719T171957.000+0800\\history.edn";
         // no-nemesis
 //        String url = "E:\\大四下\\毕业设计\\Datas\\datas\\store\\" +
 //                "mongo-causal-register-wc-_w1-rc-_local-ti-360-sd-2-cry-100-wn-50-rn-50-cpk-5-no-nemesis\\" +

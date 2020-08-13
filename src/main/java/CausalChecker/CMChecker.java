@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class CMChecker extends CCChecker {
+public class CMChecker extends CCvChecker {
 
     public CMChecker(ProgramOrder PO, ReadFrom RF, CausalOrder CO, History history) {
         super(PO, RF, CO, history);
@@ -66,6 +66,7 @@ public class CMChecker extends CCChecker {
     public void checkCausalMemory() {
         checkLoggerInfo("Starting Check Causal Memory");
         checkCC();
+        checkCCv();
         checkCM();
         printCheckStatus();
     }
