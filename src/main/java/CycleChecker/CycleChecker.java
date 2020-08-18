@@ -74,14 +74,14 @@ public class CycleChecker {
             for (int j = 0; j < cycle.size(); j++) {
                 String node = (String) cycle.get(j);
                 if (j < cycle.size() - 1) {
-                    System.out.print(node + " -> ");
-                    cyclicFlag = true;
+//                    System.out.print(node + " -> ");
+                    return true;
                 } else {
-                    System.out.print(node);
-                    cyclicFlag = true;
+//                    System.out.print(node);
+                    return true;
                 }
             }
-            System.out.print("\n");
+//            System.out.print("\n");
         }
         return cyclicFlag;
     }

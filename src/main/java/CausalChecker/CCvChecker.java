@@ -13,7 +13,7 @@ public class CCvChecker extends CCChecker{
         int size = PO.getSize();
         this.CF = new ConflictRelation(size-1);
         this.CF.calculateConflictRelation(CO, history);
-        this.CF.calculateTransitiveClosure();
+//        this.CF.calculateTransitiveClosure();
     }
 
     void initCCvMap(){
@@ -50,7 +50,7 @@ public class CCvChecker extends CCChecker{
     protected void checkCyclicCF(){
         checkLoggerInfo("Checking CyclicCF");
 //        CF.printRelationsMatrix();
-        boolean cyclic = CycleChecker.Cyclic(union(CF, CO).getRelations(true));
+        boolean cyclic = CycleChecker.CyclicOld(union(CF, CO).getRelations(true));
         if (cyclic) {
             badMap.put(BAD_PATTERN.CyclicCF, true);
         }

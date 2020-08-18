@@ -17,9 +17,16 @@ public class ProgramOrder extends PoSetMatrix {
         LinkedList<HistoryItem> histories = history.getHistories();
         HashMap<Integer, ArrayList<HistoryItem>> groups = new HashMap<Integer, ArrayList<HistoryItem>>();  // group by process
         // initial list for each process
-        for (int i = 0; i < concurrency; i++) {
-            groups.put(i, new ArrayList<HistoryItem>());
+        for(HistoryItem item: history.getOperations()){
+            int i = item.getIndex();
+            if(!groups.containsKey(i)){
+                groups.put(i, new ArrayList<HistoryItem>());
+            }
         }
+
+//        for (int i = 0; i < concurrency; i++) {
+//            groups.put(i, new ArrayList<HistoryItem>());
+//        }
         // group histories by process
         for (HistoryItem item : histories) {
             int process = item.getProcess();

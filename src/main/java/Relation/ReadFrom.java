@@ -71,7 +71,8 @@ public class ReadFrom extends PoSetMatrix {
             }
         }
         // calculate transitive closure
-        this.calculateTransitiveClosure();
+//        this.calculateTransitiveClosure();
+        this.setClose(true);
 
     }
 

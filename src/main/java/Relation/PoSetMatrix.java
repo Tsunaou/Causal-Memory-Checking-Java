@@ -42,7 +42,7 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
     }
 
     public void addRelation(int a, int b) {
-        if(!relations[a][b]){
+        if (!relations[a][b]) {
             relations[a][b] = true;
             // Add v to u's list.
             adjList[a].add(b);
@@ -203,6 +203,10 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
         return isClose;
     }
 
+    public void setClose(boolean close) {
+        isClose = close;
+    }
+
     public int getSize() {
         return size;
     }
@@ -217,7 +221,7 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
             logger.info(message);
         } else {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-            System.out.println(df.format(new Date())+" " + message);
+            System.out.println(df.format(new Date()) + " " + message);
         }
     }
 
@@ -227,7 +231,8 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
             logger.warning(message);
         } else {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-            System.out.println(df.format(new Date())+" " + message);
+            System.out.println(df.format(new Date()) + " " + message);
         }
     }
+
 }

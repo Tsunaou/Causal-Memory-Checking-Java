@@ -23,7 +23,8 @@ public class HistoryItem {
         this.type = type;
         this.f = f;
         this.value = value;
-        this.process = process % concurrency;
+//        this.process = process % concurrency;
+        this.process = process;
         this.time = time;
         this.position = position;
         this.link = link;

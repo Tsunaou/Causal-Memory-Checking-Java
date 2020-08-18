@@ -86,11 +86,18 @@ public class CCChecker extends CausalChecker {
 
     void checkWriteCORead() {
         checkLoggerInfo("Checking WriteCORead");
+//        System.out.println("PO"+PO.isPO(434, 544));
+//        System.out.println("RF"+RF.isRF(434, 544));
+
         for (HistoryItem w1 : writeHistories) {
             for (HistoryItem w2 : writeHistories) {
                 if (w1.getK().equals(w2.getK())) {
                     for (HistoryItem r1 : readHistories) {
                         if (CO.isCO(w1, w2) && CO.isCO(w2, r1) && RF.isRF(w1, r1)) {
+                            System.out.println("bad pattern find:");
+                            System.out.println("w1 is " + w1);
+                            System.out.println("w2 is " + w2);
+                            System.out.println("r1 is " + r1);
                             badMap.put(BAD_PATTERN.WriteCORead, true);
                             return;
                         }
