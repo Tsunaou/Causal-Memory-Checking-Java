@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class CMChecker extends CCvChecker {
+public class CMChecker extends CCChecker {
 
     public CMChecker(ProgramOrder PO, ReadFrom RF, CausalOrder CO, History history) {
         super(PO, RF, CO, history);
@@ -28,7 +28,9 @@ public class CMChecker extends CCvChecker {
         ArrayList<Thread> subCheckers = new ArrayList<>();
         for (int o = 0; o < operations.size(); o++) {
             HappenBeforeO HBo = new HappenBeforeO(size - 1, o);
+            System.out.println("Calculating HBo of " + o);
             HBo.calculateHappenBefore(PO, CO, history);
+            HBo.printRelations();
 //            if(o==7){
 //                PO.printRelationsMatrix();
 //                CO.printRelationsMatrix();
@@ -66,7 +68,6 @@ public class CMChecker extends CCvChecker {
     public void checkCausalMemory() {
         checkLoggerInfo("Starting Check Causal Memory");
         checkCC();
-        checkCCv();
         checkCM();
         printCheckStatus();
     }

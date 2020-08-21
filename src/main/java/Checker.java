@@ -1,10 +1,9 @@
-import CausalChecker.CCChecker;
+import CausalChecker.CCvChecker;
 import CausalChecker.CMChecker;
 import CausalLogger.CheckerWithLogger;
 import DifferentiatedHistory.History;
 import DifferentiatedHistory.HistoryReader;
 import Relation.CausalOrder;
-import Relation.HappenBefore;
 import Relation.ProgramOrder;
 import Relation.ReadFrom;
 
@@ -52,29 +51,30 @@ public class Checker implements CheckerWithLogger {
         this.logger.setLevel(Level.ALL);
     }
 
-    public void checkCausal(boolean CC, boolean CM) {
+    public void checkCausal(boolean CCv, boolean CM) {
         try {
             History history = reader.readHistory(maxIndex);
             int lastIndex = history.getLastIndex();
             System.err.println("LastIndex is " + lastIndex);
-//            for(int i=0;i<=lastIndex;i++){
-//                System.out.println(history.getOperations().get(i));
-//            }
+            for(int i=0;i<=lastIndex;i++){
+                System.out.println(history.getOperations().get(i));
+            }
             // get program order
             ProgramOrder PO = new ProgramOrder(lastIndex);
             PO.calculateProgramOrder(history, concurrency);
-//            PO.printRelations();
+            PO.printRelations();
             // get read-from
             ReadFrom RF = new ReadFrom(lastIndex);
             RF.calculateReadFrom(history, concurrency);
-//            RF.printRelations();
+            RF.printRelations();
             // get causal order
             CausalOrder CO = new CausalOrder(lastIndex);
             CO.calculateCausalOrder(PO, RF);
-            if (CC) {
-                // Causal consistency checker
-                CCChecker ccChecker = new CCChecker(PO, RF, CO, history);
-                ccChecker.checkCausalConsistency();
+            CO.printRelations();
+            if (CCv) {
+                // Causal Convergence checker
+                CCvChecker ccvChecker = new CCvChecker(PO, RF, CO, history);
+                ccvChecker.checkCausalConvergence();
             }
             if (CM) {
                 // Causal Memory checker
@@ -86,7 +86,7 @@ public class Checker implements CheckerWithLogger {
         }
     }
 
-    public void checkCausalConsistency() {
+    public void checkCausalConvergence() {
         checkCausal(true, false);
     }
 
@@ -102,36 +102,11 @@ public class Checker implements CheckerWithLogger {
 //        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/adhoc/paper_history_c.edn";
 //        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/history.edn";
 //        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/latest/history.edn";
-//        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\adhoc\\paper_history_e.edn";
+        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\adhoc\\paper_history_e.edn";
 //        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\latest\\history.edn";
-//        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/adhoc/paper_history_e.edn";
-        // 并发100 写50 读50 每键5客户端
-//        String pre = "/home/young/Desktop/NJU-Bachelor/mongodb/store/mongo-causal-register-wc-:majority-rc-:majority-ti-360-sd-2-cry-100-wn-50-rn-50-cpk-5/latest/";
-        // 并发100 写100 读100 每键5客户端
-//        String pre = "/home/young/Desktop/NJU-Bachelor/mongodb/store/mongo-causal-register-wc-:majority-rc-:majority-ti-360-sd-2-cry-100-wn-100-rn-100-cpk-5/latest/";
-        // 并发100 写50 读50 每键10客户端
-//        String pre = "/home/young/Desktop/NJU-Bachelor/mongodb/store/mongo-causal-register-wc-:majority-rc-:majority-ti-360-sd-2-cry-100-wn-50-rn-50-cpk-10/latest/";
-        // 并发100 写50 读50 每键5客户端 w1 local
-//        String pre = "/home/young/Desktop/NJU-Bachelor/mongodb/store/mongo-causal-register-wc-:w1-rc-:local-ti-600-sd-2-cry-100-wn-200-rn-200-cpk-5-node-failure/latest/";
-//        String pre = "/home/young/Desktop/NJU-Bachelor/mongodb/data0817/data0817/mongo-causal-register-wc-:majority-rc-:majority-ti-600-sd-2-cry-100-wn-200-rn-200-cpk-10-no-nemesis/";
-//        String pre = "/home/young/Desktop/NJU-Bachelor/mongodb/data0817/data0817/mongo-causal-register-wc-:majority-rc-:majority-ti-600-sd-2-cry-100-wn-200-rn-200-cpk-5-node-failure/";
-        String pre = "/home/young/Desktop/NJU-Bachelor/mongodb/data0818/mongo-causal-register-wc-:w1-rc-:local-ti-600-sd-2-cry-100-wn-200-rn-200-cpk-10-node-failure/";
-        // 并发100 写50 读50 每键20客户端
-//        String pre = "/home/young/Desktop/NJU-Bachelor/mongodb/store/mongo-causal-register-wc-:majority-rc-:majority-ti-360-sd-2-cry-100-wn-50-rn-50-cpk-20/latest/";
-//        String url = pre + "20200818T024459.000+0800/history.edn";
-        String url = pre + "latest/history.edn";
-//        String url = pre + "20200818T023314.000+0800/history.edn";
-//        String url = pre + "20200818T025646.000+0800/history.edn";
-//        String url = pre + "20200818T030843.000+0800/history.edn";
-//        String url = "E:\\NJU ICS\\Disalg Learning\\Internetware-2020-DataSets-200r-100w\\mongo-causal-register-wc-_w1-rc-_local-ti-180-sd-2-cry-100-wn-100-rn-200-cpk-20-node-failure\\20200719T171957.000+0800\\history.edn";
-        // no-nemesis
-//        String url = "E:\\大四下\\毕业设计\\Datas\\datas\\store\\" +
-//                "mongo-causal-register-wc-_w1-rc-_local-ti-360-sd-2-cry-100-wn-50-rn-50-cpk-5-no-nemesis\\" +
-//                "jepsen-no-nemesis.log";
-//        String url = "E:\\大四下\\毕业设计\\Datas\\datas\\store\\mongo-causal-register-wc-_w1-rc-_local-ti-360-sd-2-cry-100-wn-50-rn-50-cpk-20\\20200515T150302.000+0800\\history.edn";
 
         boolean file = false;
-        boolean typeCC = false;
+        boolean typeCCv = false;
         int maxIndex = Integer.MAX_VALUE;
         maxIndex = 2000;
         if (args.length == 3 && args[0].matches("\\d+")) {
@@ -139,7 +114,7 @@ public class Checker implements CheckerWithLogger {
             url = args[1];
             file = true;
             if (args[2].equals("CM")) {
-                typeCC = false;
+                typeCCv = false;
             }
         }
         if (args.length == 4 && args[0].matches("\\d+") && args[3].matches("\\d+")) {
@@ -147,15 +122,14 @@ public class Checker implements CheckerWithLogger {
             url = args[1];
             file = true;
             if (args[2].equals("CM")) {
-                typeCC = false;
+                typeCCv = false;
             }
             maxIndex = Integer.parseInt(args[3]);
         }
-//        typeCC = true;
 
         Checker cheker = new Checker(url, concurrency, file, maxIndex);
-        if (typeCC) {
-            cheker.checkCausalConsistency();
+        if (typeCCv) {
+            cheker.checkCausalConvergence();
         } else {
             cheker.checkCausalMemory();
         }
