@@ -106,7 +106,7 @@ public class Checker implements CheckerWithLogger {
 //        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\latest\\history.edn";
 
         boolean file = false;
-        boolean typeCCv = false;
+        boolean typeCCv = true;
         int maxIndex = Integer.MAX_VALUE;
         maxIndex = 2000;
         if (args.length == 3 && args[0].matches("\\d+")) {
