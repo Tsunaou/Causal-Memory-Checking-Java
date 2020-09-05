@@ -54,8 +54,9 @@ public class HistoryReader {
         long time = Long.parseLong(StringUtils.remove(subs[4], KEY_TIME));
         long position = Long.parseLong(StringUtils.remove(subs[5], KEY_POSITION));
         String link = StringUtils.remove(subs[6], KEY_LINK);
+        int realIndex = Integer.parseInt(StringUtils.remove(subs[7], KEY_INDEX));
         int index = idx++;
-        return new HistoryItem(type, f, value, process, time, position, link, index, concurrency);
+        return new HistoryItem(type, f, value, process, time, position, link, index, concurrency, index);
     }
 
     HistoryItem getHistoryItemJepsenLog(String line) {
@@ -76,7 +77,7 @@ public class HistoryReader {
         long position = 0;
         String link = null;
         int index = idx++;
-        return new HistoryItem(type, f, value, process, time, position, link, index, concurrency);
+        return new HistoryItem(type, f, value, process, time, position, link, index, concurrency, index);
     }
 
     public LinkedList<HistoryItem> readHistories() throws IOException {
@@ -145,7 +146,7 @@ public class HistoryReader {
         String url = "E:\\大四下\\毕业设计\\Datas\\datas\\store\\" +
                 "mongo-causal-register-wc-_majority-rc-_majority-ti-360-sd-2-cry-100-wn-50-rn-50-cpk-5-no-nemesis\\" +
                 "jepsen-no-nemesis.log";
-        HistoryReader reader = new HistoryReader(url, 10, true);
+        HistoryReader reader = new HistoryReader(url, 10);
         try {
             reader.readHistory(100);
         } catch (IOException e) {

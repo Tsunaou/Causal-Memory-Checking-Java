@@ -65,11 +65,13 @@ public class CMChecker extends CCChecker {
     }
 
 
-    public void checkCausalMemory() {
+    public HashMap<BAD_PATTERN, Boolean> checkCausalMemory(boolean checkCC) {
         checkLoggerInfo("Starting Check Causal Memory");
-        checkCC();
+        if(checkCC){
+            checkCC();
+        }
         checkCM();
-        printCheckStatus();
+        return this.badMap;
     }
 
     void checkWriteHBInitRead(HappenBeforeO HBo) {

@@ -1,3 +1,5 @@
+import BadPattern.BAD_PATTERN;
+import CausalChecker.CCChecker;
 import CausalChecker.CCvChecker;
 import CausalChecker.CMChecker;
 import CausalLogger.CheckerWithLogger;
@@ -11,6 +13,8 @@ import Relation.ReadFrom;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,116 +31,126 @@ public class Checker implements CheckerWithLogger {
     public Checker(String url, int concurrency) {
         this.url = url;
         this.concurrency = concurrency;
+        this.reader = new HistoryReader(url, concurrency, true);
+        this.maxIndex = Integer.MAX_VALUE;
+        this.logger = Logger.getLogger(this.getClass().getName());
+        this.logger.setLevel(Level.ALL);
+    }
+
+    public Checker(String url, int concurrency, int maxIndex) {
+        this.url = url;
+        this.concurrency = concurrency;
         this.reader = new HistoryReader(url, concurrency);
-        this.maxIndex = Integer.MAX_VALUE;
-        this.logger = Logger.getLogger(this.getClass().getName());
-        this.logger.setLevel(Level.ALL);
-    }
-
-    public Checker(String url, int concurrency, boolean file) {
-        this.url = url;
-        this.concurrency = concurrency;
-        this.reader = new HistoryReader(url, concurrency, file);
-        this.maxIndex = Integer.MAX_VALUE;
-        this.logger = Logger.getLogger(this.getClass().getName());
-        this.logger.setLevel(Level.ALL);
-    }
-
-    public Checker(String url, int concurrency, boolean file, int maxIndex) {
-        this.url = url;
-        this.concurrency = concurrency;
-        this.reader = new HistoryReader(url, concurrency, file);
         this.maxIndex = maxIndex;
         this.logger = Logger.getLogger(this.getClass().getName());
         this.logger.setLevel(Level.ALL);
     }
 
-    public void checkCausal(boolean CCv, boolean CM) {
+    public void checkCausal(String type) {
         try {
             History history = reader.readHistory(maxIndex);
             int lastIndex = history.getLastIndex();
             System.err.println("LastIndex is " + lastIndex);
-            for(int i=0;i<=lastIndex;i++){
+            for (int i = 0; i <= lastIndex; i++) {
                 System.out.println(history.getOperations().get(i));
             }
-            // get program order
+            // 1. Get PO(Program Order)
             ProgramOrder PO = new ProgramOrder(lastIndex);
             PO.calculateProgramOrder(history, concurrency);
             PO.printRelations();
-            // get read-from
+            // 2. Get RF(Read-From)
             ReadFrom RF = new ReadFrom(lastIndex);
             RF.calculateReadFrom(history, concurrency);
             RF.printRelations();
-            // get causal order
+            // 3. Get CO(Causal Order)
             CausalOrder CO = new CausalOrder(lastIndex);
             CO.calculateCausalOrder(PO, RF);
             CO.printRelations();
-            if (CCv) {
-                // Causal Convergence checker
-                CCvChecker ccvChecker = new CCvChecker(PO, RF, CO, history);
-                ccvChecker.checkCausalConvergence();
+
+            CCChecker ccChecker = null;
+            CMChecker cmChecker = null;
+            CCvChecker ccvChecker = null;
+            HashMap<BAD_PATTERN, Boolean> result = null;
+            switch (type) {
+                case "CC":
+                    ccChecker = new CCChecker(PO, RF, CO, history);
+                    result = ccChecker.checkCausalConsistency();
+                    break;
+                case "CM":
+                    cmChecker = new CMChecker(PO, RF, CO, history);
+                    result = cmChecker.checkCausalMemory(true);
+                    break;
+                case "CCv":
+                    ccvChecker = new CCvChecker(PO, RF, CO, history);
+                    result = ccvChecker.checkCausalConvergence(true);
+                    break;
+                case "CMv":
+                    HashMap<BAD_PATTERN, Boolean> resCCv = null;
+                    cmChecker = new CMChecker(PO, RF, CO, history);
+                    result = cmChecker.checkCausalMemory(true);
+                    ccvChecker = new CCvChecker(PO, RF, CO, history);
+                    resCCv = ccvChecker.checkCausalConvergence(false);
+                    // Merge Results
+                    for (Map.Entry<BAD_PATTERN, Boolean> entry : resCCv.entrySet()) {
+                        BAD_PATTERN badPattern = entry.getKey();
+                        boolean isBad = entry.getValue();
+                        if(result.containsKey(badPattern)){
+                            result.put(badPattern, result.get(badPattern) || isBad);
+                        }else{
+                            result.put(badPattern, isBad);
+                        }
+                    }
+                    break;
+                default:
+                    System.err.println("Invalid Causal Variants");
+                    System.exit(0);
             }
-            if (CM) {
-                // Causal Memory checker
-                CMChecker cmChecker = new CMChecker(PO, RF, CO, history);
-                cmChecker.checkCausalMemory();
+            checkLoggerInfo("Checking " + type + " outcome list");
+            for (Map.Entry<BAD_PATTERN, Boolean> entry : result.entrySet()) {
+                BAD_PATTERN bad = entry.getKey();
+                boolean has_bad = entry.getValue();
+                checkLoggerInfo("Collecting " + entry);
+                if (has_bad) {
+                    checkLoggerWarning("Inconsistency of " + bad);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void checkCausalConvergence() {
-        checkCausal(true, false);
-    }
-
-    public void checkCausalMemory() {
-        checkCausal(false, true);
-    }
-
     public static void main(String[] args) {
-
+        /*
+         * args[0]: concurrency
+         * args[1]: url of history
+         * args[2]: type(CC,CM,CCv,CMv)
+         * */
         long start = System.currentTimeMillis();
 
-        int concurrency = 100;
-//        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/adhoc/paper_history_c.edn";
-//        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/history.edn";
-//        String url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/latest/history.edn";
-        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\adhoc\\paper_history_e.edn";
-//        String url = "E:\\Causal-Memory-Checking-Java\\src\\main\\resources\\latest\\history.edn";
+        Integer concurrency = null;
+        String url = null;
+        String type = null;
 
-        boolean file = false;
-        boolean typeCCv = true;
-        int maxIndex = Integer.MAX_VALUE;
-        maxIndex = 2000;
-        if (args.length == 3 && args[0].matches("\\d+")) {
-            concurrency = Integer.parseInt(args[0]);
-            url = args[1];
-            file = true;
-            if (args[2].equals("CM")) {
-                typeCCv = false;
+        // Default Value
+        concurrency = 100;
+        url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/adhoc/paper_history_a.edn";
+        type = "CMv";
+
+        if (args.length == 3){
+            if (args[0].matches("\\d+")) {
+                concurrency = Integer.parseInt(args[0]);
+                url = args[1];
+                type = args[2];
+            } else {
+                System.err.println("Parameter Error. The format should be [concurrency url type]");
             }
         }
-        if (args.length == 4 && args[0].matches("\\d+") && args[3].matches("\\d+")) {
-            concurrency = Integer.parseInt(args[0]);
-            url = args[1];
-            file = true;
-            if (args[2].equals("CM")) {
-                typeCCv = false;
-            }
-            maxIndex = Integer.parseInt(args[3]);
-        }
 
-        Checker cheker = new Checker(url, concurrency, file, maxIndex);
-        if (typeCCv) {
-            cheker.checkCausalConvergence();
-        } else {
-            cheker.checkCausalMemory();
-        }
+        Checker checker = new Checker(url, concurrency);
+        checker.checkCausal(type);
 
         long end = System.currentTimeMillis();
-
-        cheker.checkLoggerInfo("Cost " + (end-start) + " ms");
+        checker.checkLoggerInfo("Cost " + (end - start) + " ms");
     }
 
     @Override
@@ -145,7 +159,7 @@ public class Checker implements CheckerWithLogger {
             logger.info(message);
         } else {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-            System.out.println(df.format(new Date())+" " + message);
+            System.out.println(df.format(new Date()) + " " + message);
         }
     }
 
@@ -155,7 +169,7 @@ public class Checker implements CheckerWithLogger {
             logger.warning(message);
         } else {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-            System.out.println(df.format(new Date())+" " + message);
+            System.err.println(df.format(new Date()) + " " + message);
         }
     }
 }

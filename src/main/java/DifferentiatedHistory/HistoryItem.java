@@ -18,8 +18,9 @@ public class HistoryItem {
     private String link; // TODO: link should not used
     private int index;
     private int concurrency;
+    private int realIndex;
 
-    public HistoryItem(String type, String f, String value, int process, long time, long position, String link, int index, int concurrency) {
+    public HistoryItem(String type, String f, String value, int process, long time, long position, String link, int index, int concurrency, int realIndex) {
         this.type = type;
         this.f = f;
         this.value = value;
@@ -30,6 +31,7 @@ public class HistoryItem {
         this.link = link;
         this.index = index;
         this.concurrency = concurrency;
+        this.realIndex = realIndex;
 
         String[] kv = StringUtils.strip(value, "[]").split(" ");
         this.k = kv[0];
@@ -111,7 +113,8 @@ public class HistoryItem {
                 ", :time " + time +
                 ", :position " + position +
                 ", :link " + link +
-                ", :index " + index;
+                ", :index " + index +
+                ", :realIndex " + realIndex;
     }
 
     public boolean isWrite() {

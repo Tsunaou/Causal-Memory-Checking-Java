@@ -5,6 +5,8 @@ import CycleChecker.CycleChecker;
 import DifferentiatedHistory.History;
 import Relation.*;
 
+import java.util.HashMap;
+
 public class CCvChecker extends CCChecker{
     ConflictRelation CF;
     public CCvChecker(ProgramOrder PO, ReadFrom RF, CausalOrder CO, History history) {
@@ -24,11 +26,13 @@ public class CCvChecker extends CCChecker{
         checkCyclicCF();
     }
 
-    public void checkCausalConvergence(){
+    public HashMap<BAD_PATTERN, Boolean> checkCausalConvergence(boolean checkCC){
         checkLoggerInfo("Starting Check Causal Convergence");
-        checkCC();
+        if(checkCC){
+            checkCC();
+        }
         checkCCv();
-        printCheckStatus();
+        return this.badMap;
     }
 
     public PoSetMatrix union(PoSetMatrix s1, PoSetMatrix s2) {

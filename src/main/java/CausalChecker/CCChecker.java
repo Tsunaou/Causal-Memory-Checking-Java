@@ -10,6 +10,7 @@ import Relation.ReadFrom;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 public class CCChecker extends CausalChecker {
 
@@ -33,10 +34,10 @@ public class CCChecker extends CausalChecker {
     }
 
 
-    public void checkCausalConsistency() {
+    public HashMap<BAD_PATTERN, Boolean> checkCausalConsistency() {
         checkLoggerInfo("Starting Check Causal Consistency");
         checkCC();
-        printCheckStatus();
+        return this.badMap;
     }
 
     void checkCyclicCO() {
