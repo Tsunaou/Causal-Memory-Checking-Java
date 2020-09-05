@@ -62,6 +62,8 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
         }
     }
 
+
+
     public void calculateTransitiveClosure() {
 //        long start = System.currentTimeMillis();
         int n = this.size;
@@ -71,6 +73,9 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
 //                for (int j = 0; j < n; j++) {
 //                    if (relations[i][j]) {
 //                        continue;
+//                    }
+//                    if(i==1352 && j==1691 && relations[i][k] && relations[k][j]){
+//                        System.out.println("i="+i+", j="+j+", k="+k);
 //                    }
 //                    relations[i][j] = relations[i][k] && relations[k][j];
 //                }
@@ -84,6 +89,20 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
 //        long end = System.currentTimeMillis();
 //        System.out.println("Closure cost " + (end - start) + "ms");
     }
+
+    public void calculateTransitiveClosureDFS() {
+//        long start = System.currentTimeMillis();
+        int n = this.size;
+        this.transitiveClosure();
+        // check
+//        for (int i = 0; i < n; i++) {
+//            assert (!relations[i][i]);
+//        }
+        isClose = true;
+//        long end = System.currentTimeMillis();
+//        System.out.println("Closure cost " + (end - start) + "ms");
+    }
+
 
     public void transitiveClosure() {
 

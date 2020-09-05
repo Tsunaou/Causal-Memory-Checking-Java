@@ -4,9 +4,9 @@
 **majority, majority, 200 write, 200 read and 10 clients per key, no nemesis**
 
 :type :ok, :f :write, :value [7 13],  :process 78, :time 1170613920,  :position 6861918774639984646, :link nil, :index 4
-:type :ok, :f :write, :value [7 118], :process 78, :time 7092429661,  :position 6861918800409788429, :link 6861918791819853827, :index 246
-:type :ok, :f :read,  :value [7 118], :process 74, :time 8063030485,  :position 6861918804704755713, :link 6861918787524886534, :index 263
-:type :ok, :f :read,  :value [7 0],   :process 74, :time 66691192608, :position 6861919053812858894, :link 6861919049517891585, :index 3700
+2020-08-17 19:49:31,509{GMT}    :type :ok, :f :write, :value [7 118], :process 78, :time 7092429661,  :position 6861918800409788429, :link 6861918791819853827, :index 246
+2020-08-17 19:49:32,480{GMT}    :type :ok, :f :read,  :value [7 118], :process 74, :time 8063030485,  :position 6861918804704755713, :link 6861918787524886534, :index 263
+2020-08-17 19:50:32,729{GMT}    :type :ok, :f :read,  :value [7 0],   :process 74, :time 66691192608, :position 6861919053812858894, :link 6861919049517891585, :index 3700
 
 
 ## 20200817 mongo-causal-register-wc-:majority-rc-:majority-ti-600-sd-2-cry-100-wn-200-rn-200-cpk-25-node-failure

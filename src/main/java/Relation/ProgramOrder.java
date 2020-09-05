@@ -18,7 +18,7 @@ public class ProgramOrder extends PoSetMatrix {
         HashMap<Integer, ArrayList<HistoryItem>> groups = new HashMap<Integer, ArrayList<HistoryItem>>();  // group by process
         // initial list for each process
         for(HistoryItem item: history.getOperations()){
-            int i = item.getIndex();
+            int i = item.getProcess();
             if(!groups.containsKey(i)){
                 groups.put(i, new ArrayList<HistoryItem>());
             }
@@ -43,7 +43,7 @@ public class ProgramOrder extends PoSetMatrix {
             }
         }
         // calculate transitive closure
-        this.calculateTransitiveClosure();
+        this.calculateTransitiveClosureDFS();
 
     }
 

@@ -23,5 +23,7 @@ r2 is :type :ok, :f :read, :value [12 4], :process 61, :time 7346787736, :positi
 w2 is :type :ok, :f :write, :value [12 144], :process 61, :time 7638473982, :position 6862041279992168494, :link 6862041279992168478, :index 598
 r1 is :type :ok, :f :read, :value [12 4], :process 61, :time 35657895357, :position 6862041400251252749, :link 6862041322941841410, :index 1019
 
-
-
+:type :ok, :f :write, :value [7 13],  :process 78, :time 1170613920,  :position 6861918774639984646, :link nil, :index 4
+:type :ok, :f :write, :value [7 118], :process 78, :time 7092429661,  :position 6861918800409788429, :link 6861918791819853827, :index 246
+:type :ok, :f :read,  :value [7 118], :process 74, :time 8063030485,  :position 6861918804704755713, :link 6861918787524886534, :index 263
+:type :ok, :f :read,  :value [7 0],   :process 74, :time 66691192608, :position 6861919053812858894, :link 6861919049517891585, :index 3700
