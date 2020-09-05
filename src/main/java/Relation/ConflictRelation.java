@@ -32,6 +32,7 @@ public class ConflictRelation extends PoSetMatrix{
                 }
             }
         }
+        this.printRelations();
     }
 
     public static void main(String[] args) {

@@ -26,6 +26,7 @@ public class CCvChecker extends CCChecker{
 
     public void checkCausalConvergence(){
         checkLoggerInfo("Starting Check Causal Convergence");
+        checkCC();
         checkCCv();
         printCheckStatus();
     }
