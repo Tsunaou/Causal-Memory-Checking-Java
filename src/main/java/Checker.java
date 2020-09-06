@@ -57,15 +57,15 @@ public class Checker implements CheckerWithLogger {
             // 1. Get PO(Program Order)
             ProgramOrder PO = new ProgramOrder(lastIndex);
             PO.calculateProgramOrder(history, concurrency);
-            PO.printRelations();
+//            PO.printRelations();
             // 2. Get RF(Read-From)
             ReadFrom RF = new ReadFrom(lastIndex);
             RF.calculateReadFrom(history, concurrency);
-            RF.printRelations();
+//            RF.printRelations();
             // 3. Get CO(Causal Order)
             CausalOrder CO = new CausalOrder(lastIndex);
             CO.calculateCausalOrder(PO, RF);
-            CO.printRelations();
+//            CO.printRelations();
 
             CCChecker ccChecker = null;
             CMChecker cmChecker = null;
@@ -134,7 +134,8 @@ public class Checker implements CheckerWithLogger {
         // Default Value
         concurrency = 100;
         url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/adhoc/paper_history_a.edn";
-        type = "CMv";
+        url = "/home/young/Desktop/NJU-Bachelor/mongodb/store/latest/history.edn";
+        type = "CC";
 
         if (args.length == 3){
             if (args[0].matches("\\d+")) {

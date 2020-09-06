@@ -30,7 +30,7 @@ public class CMChecker extends CCChecker {
             HappenBeforeO HBo = new HappenBeforeO(size - 1, o);
             System.out.println("Calculating HBo of " + o);
             HBo.calculateHappenBefore(PO, CO, history);
-            HBo.printRelations();
+//            HBo.printRelations();
 //            if(o==7){
 //                PO.printRelationsMatrix();
 //                CO.printRelationsMatrix();

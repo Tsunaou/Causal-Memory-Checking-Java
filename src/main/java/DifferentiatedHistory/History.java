@@ -27,6 +27,35 @@ public class History {
 
     }
 
+    public boolean checkDifferentiated(){
+        System.out.println("Starting Checking Differentiated");
+        HashMap<String, HashSet<Integer>> diffMap = new HashMap<>();
+        String key = null;
+        Integer value = null;
+        for(HistoryItem item: writeHistories){
+            key = item.getK();
+            value = item.getV();
+            if(value == 0){
+                System.err.println("Find Write Init, " + item);
+                return false;
+            }
+            if(diffMap.containsKey(key)){
+                HashSet<Integer> values = diffMap.get(key);
+                if(values.contains(value)){
+                    System.err.println("Find Indifferentiated Write, " + item);
+                    return false;
+                }else{
+                    values.add(value);
+                }
+            }else{
+                HashSet<Integer> values = new HashSet<>();
+                values.add(value);
+                diffMap.put(key, values);
+            }
+        }
+        return true;
+    }
+
     private void initOperations() {
         operations = new ArrayList<HistoryItem>();
         operations.addAll(histories);
@@ -42,6 +71,11 @@ public class History {
             if (item.isRead()) {
                 readHistories.add(item);
             }
+        }
+        boolean isDiff = checkDifferentiated();
+        if(!isDiff){
+            System.err.println("The history is not differentiated");
+            System.exit(-1);
         }
     }
 
