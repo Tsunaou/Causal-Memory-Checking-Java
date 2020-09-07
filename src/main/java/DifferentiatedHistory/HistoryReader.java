@@ -56,7 +56,7 @@ public class HistoryReader {
         String link = StringUtils.remove(subs[6], KEY_LINK);
         int realIndex = Integer.parseInt(StringUtils.remove(subs[7], KEY_INDEX));
         int index = idx++;
-        return new HistoryItem(type, f, value, process, time, position, link, index, concurrency, index);
+        return new HistoryItem(type, f, value, process, time, position, link, index, concurrency, realIndex);
     }
 
     HistoryItem getHistoryItemJepsenLog(String line) {

@@ -40,7 +40,7 @@ public class Checker implements CheckerWithLogger {
     public Checker(String url, int concurrency, int maxIndex) {
         this.url = url;
         this.concurrency = concurrency;
-        this.reader = new HistoryReader(url, concurrency);
+        this.reader = new HistoryReader(url, concurrency, true);
         this.maxIndex = maxIndex;
         this.logger = Logger.getLogger(this.getClass().getName());
         this.logger.setLevel(Level.ALL);
@@ -132,10 +132,11 @@ public class Checker implements CheckerWithLogger {
         String type = null;
 
         // Default Value
-        concurrency = 100;
+        concurrency = 10;
         url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/adhoc/paper_history_a.edn";
         url = "/home/young/Desktop/NJU-Bachelor/mongodb/store/latest/history.edn";
-        type = "CC";
+        url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/latest/history.edn";
+        type = "CCv";
 
         if (args.length == 3){
             if (args[0].matches("\\d+")) {
@@ -147,7 +148,7 @@ public class Checker implements CheckerWithLogger {
             }
         }
 
-        Checker checker = new Checker(url, concurrency);
+        Checker checker = new Checker(url, concurrency, 10000);
         checker.checkCausal(type);
 
         long end = System.currentTimeMillis();
