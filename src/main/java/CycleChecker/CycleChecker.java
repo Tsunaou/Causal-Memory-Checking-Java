@@ -22,39 +22,26 @@ public class CycleChecker {
             }
         }
         return false;
+    }
 
-//        int n = relations.length;
-//        String[] nodes = new String[n];
-//        Graph<Integer, DefaultEdge> directedGraph = new DefaultDirectedGraph<Integer, DefaultEdge>(DefaultEdge.class);
-//        for (int i = 0; i < n; i++) {
-//            directedGraph.addVertex(i);
-//        }
-//        for (int i = 0; i < n; i++) {
-//            for (int j = 0; j < n; j++) {
-//                if (relations[i][j]) {
-//                    directedGraph.addEdge(i, j);
-//
-//                }
-//            }
-//        }
+    public static boolean CyclicJGrapht(boolean[][] relations){
+        int n = relations.length;
+        String[] nodes = new String[n];
+        Graph<Integer, DefaultEdge> directedGraph = new DefaultDirectedGraph<Integer, DefaultEdge>(DefaultEdge.class);
+        for (int i = 0; i < n; i++) {
+            directedGraph.addVertex(i);
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (relations[i][j]) {
+                    directedGraph.addEdge(i, j);
 
-//        CycleDetector<Integer, DefaultEdge> detector = new CycleDetector<Integer, DefaultEdge>(directedGraph);
-//        boolean cyclic = false;
-//        HawickJamesSimpleCycles<Integer, DefaultEdge> finder = new HawickJamesSimpleCycles<Integer, DefaultEdge>(directedGraph);
-//        List<List<Integer>> cycles = finder.findSimpleCycles();
-//        for (List<Integer> list : cycles) {
-//            if (list.size() > 1) {
-//                for (Integer v : list) {
-//                    System.out.print(v + " ");
-//                }
-//                System.out.println();
-//                cyclic = true;
-//            }
-//        }
-//        if (cyclic) {
-//            System.out.println("==============================================");
-//        }
-//        return cyclic;
+                }
+            }
+        }
+
+        CycleDetector<Integer, DefaultEdge> detector = new CycleDetector<Integer, DefaultEdge>(directedGraph);
+        return detector.detectCycles();
     }
 
     @Deprecated
