@@ -133,37 +133,39 @@ public class Checker implements CheckerWithLogger {
 
         // Default Value
         concurrency = 10;
+
+
         url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/adhoc/paper_history_a.edn";
-        url = "/home/young/Desktop/NJU-Bachelor/mongodb/store/latest/history.edn";
+        url = "/home/young/DisAlg/Causal-Consistency/MongoDB/mongodb/store/latest/history.edn";
 //        url = "/home/young/Desktop/NJU-Bachelor/Causal-Memory-Checking-Java/src/main/resources/latest/history.edn";
 
-        String pre = "/home/young/Desktop/NJU-Bachelor/mongodb/store/";
+        String pre = "/home/young/DisAlg/Causal-Consistency/MongoDB/mongodb/store/";
         String[] paths = {
-                "mongo-causal-register-wc-:majority-rc-:majority-ti-600-sd-2-cry-10-wp-0.2-rp-0.8-ops-20000-node-failure",
-                "mongo-causal-register-wc-:majority-rc-:majority-ti-600-sd-2-cry-10-wp-0.2-rp-0.8-ops-20000-no-nemesis", // 2nd, no data
-                "mongo-causal-register-wc-:majority-rc-:majority-ti-600-sd-2-cry-10-wp-0.5-rp-0.5-ops-20000-node-failure",
-                "mongo-causal-register-wc-:majority-rc-:majority-ti-600-sd-2-cry-10-wp-0.5-rp-0.5-ops-20000-no-nemesis",
-                "mongo-causal-register-wc-:majority-rc-:majority-ti-600-sd-2-cry-10-wp-0.8-rp-0.2-ops-20000-node-failure", // no data
-                "mongo-causal-register-wc-:majority-rc-:majority-ti-600-sd-2-cry-10-wp-0.8-rp-0.2-ops-20000-no-nemesis",
-                "mongo-causal-register-wc-:w1-rc-:local-ti-600-sd-2-cry-10-wp-0.2-rp-0.8-ops-20000-node-failure",
-                "mongo-causal-register-wc-:w1-rc-:local-ti-600-sd-2-cry-10-wp-0.2-rp-0.8-ops-20000-no-nemesis",
-                "mongo-causal-register-wc-:w1-rc-:local-ti-600-sd-2-cry-10-wp-0.5-rp-0.5-ops-20000-node-failure", // yes
-                "mongo-causal-register-wc-:w1-rc-:local-ti-600-sd-2-cry-10-wp-0.5-rp-0.5-ops-20000-no-nemesis",
-                "mongo-causal-register-wc-:w1-rc-:local-ti-600-sd-2-cry-10-wp-0.8-rp-0.2-ops-20000-node-failure",
-                "mongo-causal-register-wc-:w1-rc-:local-ti-600-sd-2-cry-10-wp-0.8-rp-0.2-ops-20000-no-nemesis",
-                "mongo-causal-register-wc-:majority-rc-:majority-ti-600-sd-2-cry-10-wp-0.4-rp-0.6-ops-20000-node-failure",
-                "mongo-causal-register-wc-:majority-rc-:majority-ti-600-sd-2-cry-10-wp-0.4-rp-0.6-ops-20000-no-nemesis",
-                "mongo-causal-register-wc-:majority-rc-:majority-ti-600-sd-2-cry-10-wp-0.6-rp-0.4-ops-20000-node-failure",
-                "mongo-causal-register-wc-:majority-rc-:majority-ti-600-sd-2-cry-10-wp-0.6-rp-0.4-ops-20000-no-nemesis",
-                "mongo-causal-register-wc-:w1-rc-:local-ti-600-sd-2-cry-10-wp-0.4-rp-0.6-ops-20000-node-failure",
-                "mongo-causal-register-wc-:w1-rc-:local-ti-600-sd-2-cry-10-wp-0.4-rp-0.6-ops-20000-no-nemesis",
-                "mongo-causal-register-wc-:w1-rc-:local-ti-600-sd-2-cry-10-wp-0.6-rp-0.4-ops-20000-node-failure",
-                "mongo-causal-register-wc-:w1-rc-:local-ti-600-sd-2-cry-10-wp-0.6-rp-0.4-ops-20000-no-nemesis"
+                "mongo-causal-register-wc-:majority-rc-:majority-ti-2400-sd-2-cry-10-wp-0.2-rp-0.8-ops-10000-node-failure",
+                "mongo-causal-register-wc-:majority-rc-:majority-ti-2400-sd-2-cry-10-wp-0.2-rp-0.8-ops-10000-no-nemesis", // 2nd, no data
+                "mongo-causal-register-wc-:majority-rc-:majority-ti-2400-sd-2-cry-10-wp-0.5-rp-0.5-ops-10000-node-failure",
+                "mongo-causal-register-wc-:majority-rc-:majority-ti-2400-sd-2-cry-10-wp-0.5-rp-0.5-ops-10000-no-nemesis",
+                "mongo-causal-register-wc-:majority-rc-:majority-ti-2400-sd-2-cry-10-wp-0.8-rp-0.2-ops-10000-node-failure", // no data
+                "mongo-causal-register-wc-:majority-rc-:majority-ti-2400-sd-2-cry-10-wp-0.8-rp-0.2-ops-10000-no-nemesis",
+                "mongo-causal-register-wc-:w1-rc-:local-ti-2400-sd-2-cry-10-wp-0.2-rp-0.8-ops-10000-node-failure",
+                "mongo-causal-register-wc-:w1-rc-:local-ti-2400-sd-2-cry-10-wp-0.2-rp-0.8-ops-10000-no-nemesis",
+                "mongo-causal-register-wc-:w1-rc-:local-ti-2400-sd-2-cry-10-wp-0.5-rp-0.5-ops-10000-node-failure", // yes
+                "mongo-causal-register-wc-:w1-rc-:local-ti-2400-sd-2-cry-10-wp-0.5-rp-0.5-ops-10000-no-nemesis",
+                "mongo-causal-register-wc-:w1-rc-:local-ti-2400-sd-2-cry-10-wp-0.8-rp-0.2-ops-10000-node-failure",
+                "mongo-causal-register-wc-:w1-rc-:local-ti-2400-sd-2-cry-10-wp-0.8-rp-0.2-ops-10000-no-nemesis",
+                "mongo-causal-register-wc-:majority-rc-:majority-ti-2400-sd-2-cry-10-wp-0.4-rp-0.6-ops-10000-node-failure",
+                "mongo-causal-register-wc-:majority-rc-:majority-ti-2400-sd-2-cry-10-wp-0.4-rp-0.6-ops-10000-no-nemesis",
+                "mongo-causal-register-wc-:majority-rc-:majority-ti-2400-sd-2-cry-10-wp-0.6-rp-0.4-ops-10000-node-failure",
+                "mongo-causal-register-wc-:majority-rc-:majority-ti-2400-sd-2-cry-10-wp-0.6-rp-0.4-ops-10000-no-nemesis",
+                "mongo-causal-register-wc-:w1-rc-:local-ti-2400-sd-2-cry-10-wp-0.4-rp-0.6-ops-10000-node-failure",
+                "mongo-causal-register-wc-:w1-rc-:local-ti-2400-sd-2-cry-10-wp-0.4-rp-0.6-ops-10000-no-nemesis",
+                "mongo-causal-register-wc-:w1-rc-:local-ti-2400-sd-2-cry-10-wp-0.6-rp-0.4-ops-10000-node-failure",
+                "mongo-causal-register-wc-:w1-rc-:local-ti-2400-sd-2-cry-10-wp-0.6-rp-0.4-ops-10000-no-nemesis"
         };
         String edn = "/latest/history.edn";
-        url = pre + paths[19] + edn;
+        url = pre + paths[18] + edn;
 
-        type = "CC";
+        type = "CCv";
 
         if (args.length == 3){
             if (args[0].matches("\\d+")) {

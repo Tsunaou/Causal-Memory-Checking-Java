@@ -55,7 +55,7 @@ public class CCvChecker extends CCChecker{
     protected void checkCyclicCF(){
         checkLoggerInfo("Checking CyclicCF");
 //        CF.printRelationsMatrix();
-        boolean cyclic = CycleChecker.CyclicOld(union(CF, CO).getRelations(true));
+        boolean cyclic = CycleChecker.TopoCycleChecker(union(CF, CO).getRelations(true));
         if (cyclic) {
             badMap.put(BAD_PATTERN.CyclicCF, true);
         }
