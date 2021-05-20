@@ -78,10 +78,12 @@ public class CCChecker extends CausalChecker {
                         exists = true;
                     }
                 }
+                if (!exists) {
+                    System.out.println("ThinAirRead is [" + read.getK() + "," + read.getV() + "]");
+                    badMap.put(BAD_PATTERN.ThinAirRead, true);
+                }
+                exists = false;
             }
-        }
-        if (!exists) {
-            badMap.put(BAD_PATTERN.ThinAirRead, true);
         }
     }
 
@@ -95,7 +97,7 @@ public class CCChecker extends CausalChecker {
                 if (w1.getK().equals(w2.getK())) {
                     for (HistoryItem r1 : readHistories) {
                         if (CO.isCO(w1, w2) && CO.isCO(w2, r1) && RF.isRF(w1, r1)) {
-                            System.out.println("bad pattern find:");
+                            System.out.println("WriteCORead find:");
                             System.out.println("w1 is " + w1);
                             System.out.println("w2 is " + w2);
                             System.out.println("r1 is " + r1);
