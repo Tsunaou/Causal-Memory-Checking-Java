@@ -6,6 +6,7 @@ import DifferentiatedHistory.History;
 import DifferentiatedHistory.HistoryItem;
 import Relation.*;
 
+import javax.sound.midi.Soundbank;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +26,17 @@ public class CMChecker extends CCChecker {
 
     private void checkCM() {
         int size = PO.getSize();
+        // New Version
+        HappenBefore HB = new HappenBefore(size - 1, PO, CO, history);
+        for (int o = 0; o < operations.size(); o++) {
+            HappenBeforeO HBo = new HappenBeforeO(size - 1, o);
+            HBo.calculateHappenBefore(PO, CO, history);
+            if(!HB.getHBo(o).equals(HBo)){
+                System.out.println("Sorry");
+            }
+            assert (HB.getHBo(o).equals(HBo));
+        }
+        // Old Version
         ArrayList<Thread> subCheckers = new ArrayList<>();
         for (int o = 0; o < operations.size(); o++) {
             HappenBeforeO HBo = new HappenBeforeO(size - 1, o);
@@ -67,7 +79,7 @@ public class CMChecker extends CCChecker {
 
     public HashMap<BAD_PATTERN, Boolean> checkCausalMemory(boolean checkCC) {
         checkLoggerInfo("Starting Check Causal Memory");
-        if(checkCC){
+        if (checkCC) {
             checkCC();
         }
         checkCM();
@@ -115,7 +127,7 @@ public class CMChecker extends CCChecker {
             logger.info(message);
         } else {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-            System.out.println(df.format(new Date())+" " + message);
+            System.out.println(df.format(new Date()) + " " + message);
         }
     }
 
@@ -125,7 +137,7 @@ public class CMChecker extends CCChecker {
             logger.warning(message);
         } else {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-            System.out.println(df.format(new Date())+" " + message);
+            System.out.println(df.format(new Date()) + " " + message);
         }
     }
 }

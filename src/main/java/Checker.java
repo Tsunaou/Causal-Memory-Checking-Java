@@ -165,7 +165,11 @@ public class Checker implements CheckerWithLogger {
         String edn = "/latest/history.edn";
         url = pre + paths[18] + edn;
 
-        type = "CCv";
+//        url = "E:\\Programs\\Causal-Memory-Checking-Java\\src\\main\\resources\\adhoc\\paper_history_e.edn";
+        url = "E:\\Programs\\Causal-Memory-Checking-Java\\src\\main\\resources\\history.edn";
+//        url = "E:\\Programs\\Causal-Memory-Checking-Java\\src\\main\\resources\\latest\\history_1w.edn";
+
+        type = "CMv";
 
         if (args.length == 3){
             if (args[0].matches("\\d+")) {

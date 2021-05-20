@@ -254,4 +254,17 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
         }
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        boolean[][] HBo = ((HappenBeforeO) obj).getRelations(true);
+        int n = size;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(relations[i][j]!=HBo[i][j]){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }
