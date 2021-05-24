@@ -19,7 +19,7 @@ public class HappenBeforeO extends PoSetMatrix {
         this.oIndex = oIndex;
     }
 
-    void copy(HappenBeforeO HBo) {
+    public void copy(HappenBeforeO HBo) {
         boolean[][] hbo = HBo.getRelations(true);
         int n = hbo.length;
         for (int i = 0; i < n; i++) {
@@ -31,7 +31,7 @@ public class HappenBeforeO extends PoSetMatrix {
         }
     }
 
-    void update_HBo(int w1, int w2) {
+    public void update_HBo(int w1, int w2) {
         int n = this.getSize();
         addRelation(w1, w2);
         List<Integer> toW1 = new LinkedList<>();
@@ -45,7 +45,9 @@ public class HappenBeforeO extends PoSetMatrix {
             }
         }
         for (int x : toW1) {
+            addRelation(x, w2);
             for (int y : fromW2) {
+                addRelation(w1, y);
                 if (!isHBo(x, y)) {
                     addRelation(x, y);
                 }
@@ -53,7 +55,67 @@ public class HappenBeforeO extends PoSetMatrix {
         }
     }
 
+    public void calculateHappenBeforeEasy(ProgramOrder PO, CausalOrder CO, History history) {
+        checkLoggerInfo("Calculating HBo " + oIndex);
+        // calculate CasualPast(o)
+        LinkedList<Integer> causalPast = CO.CausalPast(oIndex);
+        // CO|CausalPast(o) \subset HB_o
+        for (int i : causalPast) {
+            for (int j : causalPast) {
+                if (CO.isCO(i, j)) {
+                    addRelation(i, j);
+                }
+            }
+        }
 
+        // Definition
+        HistoryItem o = history.getOperations().get(oIndex);
+        LinkedList<HistoryItem> writeList = history.getWriteHistories();
+        LinkedList<HistoryItem> readList = history.getReadHistories();
+        boolean flag = true;
+        int count_continue = 0;
+        out:
+        while (flag) {
+            // First Closure
+//            System.out.println("count_continue is " + count_continue);
+            count_continue = count_continue + 1;
+            flag = false;
+            calculateTransitiveClosure();
+            HashSet<Integer> rList = null;
+            HashSet<Integer> wList = null;
+            for (String x : history.getOpKeySets()) {
+                rList = history.getReadGroupByKey().get(x);
+                if (rList != null) {
+                    for (int i : rList) {
+                        HistoryItem r2 = history.getOperations().get(i);
+                        if (PO.isPOEQ(r2, o)) {
+                            if (history.getReadFrom().containsKey(i)) {
+                                HistoryItem w2 = history.getOperations().get(history.getReadFrom().get(i));
+                                wList = history.getWriteGroupByKey().get(x);
+                                if (wList != null) {
+                                    for (int j : wList) {
+                                        HistoryItem w1 = history.getOperations().get(j);
+                                        int d1 = w1.getV();
+                                        int d2 = w2.getV();
+                                        if (d1 != d2 && !isHBo(w1, w2) && isHBo(w1, r2)) {
+                                            update_HBo(w1.getIndex(), w2.getIndex());
+//                                    System.out.printf("w1 is %d, w2 is %d, r2 is %d  ADD HBO (%d %d)\n",
+//                                            w1.getIndex(), w2.getIndex(), r2.getIndex(), w1.getIndex(), w2.getIndex());
+//                                    System.out.println("Find new HB " + w1.getIndex() + ", " + w2.getIndex());
+                                            flag = true;
+                                            continue out;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // Second Closure
+        calculateTransitiveClosure();
+    }
 
     public void calculateHappenBefore(ProgramOrder PO, CausalOrder CO, History history) {
         checkLoggerInfo("Calculating HBo " + oIndex);
@@ -85,7 +147,7 @@ public class HappenBeforeO extends PoSetMatrix {
 //            System.out.println("count_continue is " + count_continue);
             count_continue = count_continue + 1;
             flag = false;
-//            calculateTransitiveClosure();
+            calculateTransitiveClosure();
             HashSet<Integer> rList = null;
             HashSet<Integer> wList = null;
             for (String x : history.getOpKeySets()) {

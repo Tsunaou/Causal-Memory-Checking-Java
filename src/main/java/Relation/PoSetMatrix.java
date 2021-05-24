@@ -63,7 +63,6 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
     }
 
 
-
     public void calculateTransitiveClosure() {
 //        long start = System.currentTimeMillis();
         int n = this.size;
@@ -73,9 +72,6 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
 //                for (int j = 0; j < n; j++) {
 //                    if (relations[i][j]) {
 //                        continue;
-//                    }
-//                    if(i==1352 && j==1691 && relations[i][k] && relations[k][j]){
-//                        System.out.println("i="+i+", j="+j+", k="+k);
 //                    }
 //                    relations[i][j] = relations[i][k] && relations[k][j];
 //                }
@@ -154,6 +150,20 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
             System.out.println();
         }
 //        System.out.println(this.getClass().getName() + " has " + count + " relations");
+    }
+
+    public boolean isSubSetTo(PoSetMatrix set) {
+        int n = size;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if(relations[i][j]){
+                    if(!set.isRelation(i,j)){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     public void printRelationsMatrix() {
@@ -258,9 +268,9 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
     public boolean equals(Object obj) {
         boolean[][] HBo = ((HappenBeforeO) obj).getRelations(true);
         int n = size;
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                if(relations[i][j]!=HBo[i][j]){
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (relations[i][j] != HBo[i][j]) {
                     return false;
                 }
             }

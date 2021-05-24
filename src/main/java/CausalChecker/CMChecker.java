@@ -8,9 +8,7 @@ import Relation.*;
 
 import javax.sound.midi.Soundbank;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 
 public class CMChecker extends CCChecker {
 
@@ -26,53 +24,101 @@ public class CMChecker extends CCChecker {
 
     private void checkCM() {
         int size = PO.getSize();
+        int n = size -1;
         // New Version
-        HappenBefore HB = new HappenBefore(size - 1, PO, CO, history);
-        for (int o = 0; o < operations.size(); o++) {
-            HappenBeforeO HBo = new HappenBeforeO(size - 1, o);
-            HBo.calculateHappenBefore(PO, CO, history);
-            if(!HB.getHBo(o).equals(HBo)){
-                System.out.println("Sorry");
-            }
-            assert (HB.getHBo(o).equals(HBo));
-        }
-        // Old Version
-        ArrayList<Thread> subCheckers = new ArrayList<>();
-        for (int o = 0; o < operations.size(); o++) {
-            HappenBeforeO HBo = new HappenBeforeO(size - 1, o);
-            System.out.println("Calculating HBo of " + o);
-            HBo.calculateHappenBefore(PO, CO, history);
-//            HBo.printRelations();
-//            if(o==7){
-//                PO.printRelationsMatrix();
-//                CO.printRelationsMatrix();
-//                HBo.printRelationsMatrix();
-//            }
-//            System.out.println("-----------------------------------------------------------------------");
-//            System.out.println("for operation" + history.getOperations().get(o));
-            checkWriteHBInitRead(HBo);
-            checkCyclicHB(HBo);
+        HashMap<Integer, ArrayList<Integer>> OpMapByProcess = new HashMap<>();
 
-//            Thread subChecker = new Thread(() -> {
-//                checkWriteHBInitRead(HBo);
-//                checkCyclicHB(HBo);
-//            });
-//            subChecker.start();
-            // TODO:
-            // FIXME:
-//            try {
-//                subChecker.join();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            subCheckers.add(subChecker);
-        }
-        try {
-            for (Thread subChecker : subCheckers) {
-                subChecker.join();
+        // 根据线程给操作分组
+        for(int o = 0; o < history.getOperations().size(); o++){
+            HistoryItem op = history.getOperations().get(o);
+            int process = op.getProcess();
+            if(!OpMapByProcess.containsKey(process)) {
+                OpMapByProcess.put(process, new ArrayList<>());
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            OpMapByProcess.get(process).add(o);
+        }
+        // 根据 Program Order 对每个线程上的排序并计算HBo
+        for (Map.Entry<Integer, ArrayList<Integer>> entry : OpMapByProcess.entrySet()) {
+            ArrayList<Integer> subOpInProcess = entry.getValue();
+            subOpInProcess.sort((o1, o2) -> {
+                if(o1.equals(o2)){
+                    return 0;
+                }
+                boolean res = PO.isPO(o1, o2);
+                if (res) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            });
+
+            // 测试排序结果是否正确
+            for(int i=0; i<subOpInProcess.size()-1;i++){
+                int o1 = subOpInProcess.get(i);
+                int o2 = subOpInProcess.get(i+1);
+                assert (PO.isPO(o1, o2));
+                HappenBeforeO hbo1 = new HappenBeforeO(n, o1);
+                hbo1.calculateHappenBefore(PO, CO, history);
+                HappenBeforeO hbo2 = new HappenBeforeO(n, o2);
+                hbo2.calculateHappenBefore(PO, CO, history);
+                assert (hbo1.isSubSetTo(hbo2));
+            }
+
+            // 计算第一个操作的HBo
+            int firstOp = subOpInProcess.get(0);
+            HappenBeforeO preHBo = new HappenBeforeO(n, firstOp);
+            preHBo.calculateHappenBefore(PO, CO, history);
+
+            int curOp = firstOp;
+            int preOp = firstOp;
+            HappenBeforeO curHBo = preHBo;
+            for(int i=1; i<subOpInProcess.size();i++){
+                curOp = subOpInProcess.get(i);
+                curHBo = new HappenBeforeO(n, curOp);
+                curHBo.copy(preHBo);
+                assert (preHBo.isSubSetTo(curHBo));
+
+//                if(operations.get(curOp).isWrite()){
+//                    curHBo.update_HBo(preOp, curOp);
+//                }else{
+//                    curHBo.calculateHappenBefore(PO, CO, history);
+//                }
+                curHBo.calculateHappenBefore(PO, CO, history);
+                assert (preHBo.isSubSetTo(curHBo));
+
+                preHBo = curHBo;
+                preOp = curOp;
+
+                checkLoggerInfo("o is " + curOp);
+                HappenBeforeO HBo = new HappenBeforeO(n, curOp);
+                HBo.calculateHappenBefore(PO, CO, history);
+                if(!curHBo.equals(HBo)){
+                    checkLoggerInfo("Sorry");
+                    checkLoggerInfo("Operation is " + operations.get(curOp));
+                    checkLoggerInfo("curHBo");
+                    curHBo.printRelations();
+                    checkLoggerInfo("HBo");
+                    HBo.printRelations();
+
+                    boolean[][] curMatrix = curHBo.getRelations(true);
+                    boolean[][] stdMatrix = HBo.getRelations(true);
+                    for(int ii=0;ii<n;ii++){
+                        for(int jj=0;jj<n;jj++){
+                            if(curMatrix[ii][jj] != stdMatrix[ii][jj]){
+                                System.out.println("curMatrix["+ii+"]["+jj+"] is " + curMatrix[ii][jj]);
+                                System.out.println("stdMatrix["+ii+"]["+jj+"] is " + stdMatrix[ii][jj]);
+                            }
+                        }
+                    }
+                    System.out.println("dddd");
+                }
+
+                assert (curHBo.equals(HBo));
+
+            }
+            // 此时每个线程上最后一个操作的HB就是需要检验的HB，此时为 curHBo
+            checkWriteHBInitRead(curHBo);
+            checkCyclicHB(curHBo);
         }
     }
 
