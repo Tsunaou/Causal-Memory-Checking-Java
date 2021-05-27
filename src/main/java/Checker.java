@@ -57,19 +57,19 @@ public class Checker implements CheckerWithLogger {
             // 1. Get PO(Program Order)
             ProgramOrder PO = new ProgramOrder(lastIndex);
             PO.calculateProgramOrder(history, concurrency);
-            System.out.println("PO");
-            PO.printRelations();
+//            System.out.println("PO");
+//            PO.printRelations();
             // 2. Get RF(Read-From)
             ReadFrom RF = new ReadFrom(lastIndex);
             RF.calculateReadFrom(history, concurrency);
-            System.out.println("RF");
-            RF.printRelations();
+//            System.out.println("RF");
+//            RF.printRelations();
 //            RF.printRelations();
             // 3. Get CO(Causal Order)
-            System.out.println("CO");
+//            System.out.println("CO");
             CausalOrder CO = new CausalOrder(lastIndex);
             CO.calculateCausalOrder(PO, RF);
-            CO.printRelations();
+//            CO.printRelations();
 
             CCChecker ccChecker = null;
             CMChecker cmChecker = null;
@@ -171,8 +171,8 @@ public class Checker implements CheckerWithLogger {
 
 //        url = "E:\\Programs\\Causal-Memory-Checking-Java\\src\\main\\resources\\adhoc\\paper_history_a.edn";
 //        url = "E:\\Programs\\Causal-Memory-Checking-Java\\src\\main\\resources\\history.edn";
-//        url = "D:\\Education\\Programs\\Java\\Causal-Memory-Checking-Java\\src\\main\\resources\\latest\\history_1w.edn";
-        url = "D:\\Education\\Programs\\Java\\Causal-Memory-Checking-Java\\src\\main\\resources\\adhoc\\paper_history_e.edn";
+        url = "D:\\Education\\Programs\\Java\\Causal-Memory-Checking-Java\\src\\main\\resources\\latest\\history_1w.edn";
+//        url = "D:\\Education\\Programs\\Java\\Causal-Memory-Checking-Java\\src\\main\\resources\\adhoc\\paper_history_e.edn";
         type = "CMv";
 
         if (args.length == 3){
@@ -185,7 +185,7 @@ public class Checker implements CheckerWithLogger {
             }
         }
 
-        Checker checker = new Checker(url, concurrency, 200);
+        Checker checker = new Checker(url, concurrency, 10000);
         checker.checkCausal(type);
 
         long end = System.currentTimeMillis();
