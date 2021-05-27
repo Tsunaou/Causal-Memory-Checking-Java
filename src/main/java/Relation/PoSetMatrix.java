@@ -277,4 +277,8 @@ public class PoSetMatrix implements PoSet, CheckerWithLogger {
         }
         return true;
     }
+
+    public void setRelations(boolean[][] relations) {
+        this.relations = relations;
+    }
 }

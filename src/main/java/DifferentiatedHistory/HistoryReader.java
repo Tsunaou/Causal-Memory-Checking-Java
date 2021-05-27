@@ -95,7 +95,7 @@ public class HistoryReader {
             if (history != null) {
                 histories.add(history);
             }
-            if (idx > maxIndex) {
+            if (idx >= maxIndex) {
                 break;
             }
         }
@@ -114,7 +114,7 @@ public class HistoryReader {
             if (history != null) {
                 histories.add(history);
             }
-            if (idx > maxIndex) {
+            if (idx >= maxIndex) {
                 break;
             }
         }

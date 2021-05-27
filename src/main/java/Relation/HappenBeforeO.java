@@ -147,7 +147,7 @@ public class HappenBeforeO extends PoSetMatrix {
 //            System.out.println("count_continue is " + count_continue);
             count_continue = count_continue + 1;
             flag = false;
-            calculateTransitiveClosure();
+//            calculateTransitiveClosure();
             HashSet<Integer> rList = null;
             HashSet<Integer> wList = null;
             for (String x : history.getOpKeySets()) {

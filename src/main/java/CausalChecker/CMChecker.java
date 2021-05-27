@@ -39,6 +39,8 @@ public class CMChecker extends CCChecker {
         }
         // 根据 Program Order 对每个线程上的排序并计算HBo
         for (Map.Entry<Integer, ArrayList<Integer>> entry : OpMapByProcess.entrySet()) {
+            int processNum = entry.getKey();
+            checkLoggerInfo("Checking Happened Before Order in Process " + processNum);
             ArrayList<Integer> subOpInProcess = entry.getValue();
             subOpInProcess.sort((o1, o2) -> {
                 if(o1.equals(o2)){
@@ -57,68 +59,15 @@ public class CMChecker extends CCChecker {
                 int o1 = subOpInProcess.get(i);
                 int o2 = subOpInProcess.get(i+1);
                 assert (PO.isPO(o1, o2));
-                HappenBeforeO hbo1 = new HappenBeforeO(n, o1);
-                hbo1.calculateHappenBefore(PO, CO, history);
-                HappenBeforeO hbo2 = new HappenBeforeO(n, o2);
-                hbo2.calculateHappenBefore(PO, CO, history);
-                assert (hbo1.isSubSetTo(hbo2));
             }
 
-            // 计算第一个操作的HBo
-            int firstOp = subOpInProcess.get(0);
-            HappenBeforeO preHBo = new HappenBeforeO(n, firstOp);
-            preHBo.calculateHappenBefore(PO, CO, history);
-
-            int curOp = firstOp;
-            int preOp = firstOp;
-            HappenBeforeO curHBo = preHBo;
-            for(int i=1; i<subOpInProcess.size();i++){
-                curOp = subOpInProcess.get(i);
-                curHBo = new HappenBeforeO(n, curOp);
-                curHBo.copy(preHBo);
-                assert (preHBo.isSubSetTo(curHBo));
-
-//                if(operations.get(curOp).isWrite()){
-//                    curHBo.update_HBo(preOp, curOp);
-//                }else{
-//                    curHBo.calculateHappenBefore(PO, CO, history);
-//                }
-                curHBo.calculateHappenBefore(PO, CO, history);
-                assert (preHBo.isSubSetTo(curHBo));
-
-                preHBo = curHBo;
-                preOp = curOp;
-
-                checkLoggerInfo("o is " + curOp);
-                HappenBeforeO HBo = new HappenBeforeO(n, curOp);
-                HBo.calculateHappenBefore(PO, CO, history);
-                if(!curHBo.equals(HBo)){
-                    checkLoggerInfo("Sorry");
-                    checkLoggerInfo("Operation is " + operations.get(curOp));
-                    checkLoggerInfo("curHBo");
-                    curHBo.printRelations();
-                    checkLoggerInfo("HBo");
-                    HBo.printRelations();
-
-                    boolean[][] curMatrix = curHBo.getRelations(true);
-                    boolean[][] stdMatrix = HBo.getRelations(true);
-                    for(int ii=0;ii<n;ii++){
-                        for(int jj=0;jj<n;jj++){
-                            if(curMatrix[ii][jj] != stdMatrix[ii][jj]){
-                                System.out.println("curMatrix["+ii+"]["+jj+"] is " + curMatrix[ii][jj]);
-                                System.out.println("stdMatrix["+ii+"]["+jj+"] is " + stdMatrix[ii][jj]);
-                            }
-                        }
-                    }
-                    System.out.println("dddd");
-                }
-
-                assert (curHBo.equals(HBo));
-
-            }
+            int opNumCurProcess = subOpInProcess.size();
+            int lastOp = subOpInProcess.get(opNumCurProcess - 1);
+            HappenBeforeO lastHBo = new HappenBeforeO(size - 1, lastOp);
+            lastHBo.calculateHappenBefore(PO, CO, history);
             // 此时每个线程上最后一个操作的HB就是需要检验的HB，此时为 curHBo
-            checkWriteHBInitRead(curHBo);
-            checkCyclicHB(curHBo);
+            checkWriteHBInitRead(lastHBo);
+            checkCyclicHB(lastHBo);
         }
     }
 

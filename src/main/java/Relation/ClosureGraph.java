@@ -1,7 +1,5 @@
 package Relation;
 
-import org.omg.CORBA.NVList;
-
 import java.util.ArrayList;
 
 public class ClosureGraph {
