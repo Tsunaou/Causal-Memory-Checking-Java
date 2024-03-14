@@ -4,6 +4,8 @@ In this project, we have fully implemented the "Bad Pattern" based causal consis
 
 This project is also a part of the experiments of our paper named [Checking Causal Consistency of MongoDB](https://dl.acm.org/doi/10.1145/3457913.3457928) which has been accepted by *The 12th Asia-Pacific Symposium on Internetware* (***Internetware***). The presentation video can be found in [bilibili](https://www.bilibili.com/video/BV1dK4y197FS?share_source=copy_web).
 
+In addition, we do some TLA+ formal checking for causal consistency in https://github.com/hengxin/tla-causal-consistency.
+
 ## Requirement
 
 - Java 8
